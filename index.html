@@ -387,7 +387,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
 .news li{border-left:2px solid #fff;padding-left:.6rem}.news b{display:block;color:#fff;font-size:.9rem}.news small{color:#a9b7d6;font-size:.8rem;line-height:1.35}
 @media (max-width:900px){#app .page[data-page=play].on{grid-template-columns:1fr}.playside{padding-bottom:2rem}}
 </style>
-<script>window.LADUE_SITE_VERSION="mwg2iu90";
+<script>window.LADUE_SITE_VERSION="mwgqeya0";
 /* Auto-update: GitHub Pages lets browsers keep the page for up to 10 minutes, so an open or
    cached copy checks version.json (always fetched fresh) and reloads itself when the site changes. */
 (function(){
@@ -503,6 +503,8 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
       <div class="vtable reveal" id="siteVersions"></div>
     </section>
 
+    <div class="adslot" id="adBanner" aria-label="Advertisement"></div>
+
     <section class="block" id="capes">
       <div class="sechead">
         <div><h2 class="title">Capes</h2><p class="sub">Nine to choose from, including two Ram-Craft capes. Click one to open the launcher with it equipped. It uses the game's own cape system, so players on the server see it too (1.8.8 and 1.12.2).</p></div>
@@ -545,6 +547,8 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
       </div>
     </div>
   </section>
+
+  <div class="wrap"><div class="adslot adnative" aria-label="Advertisement"><div id="container-8036884e71a93453e19c1b8d57bfe32a"></div></div></div>
 
   <div class="wrap">
     <section class="block" id="faq">
@@ -593,6 +597,33 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
     <div class="wrap"><div class="legal">Not affiliated with Mojang Studios or Microsoft. Built on open-source browser ports of Minecraft by lax1dude, ayunami2000 and contributors.</div></div>
   </footer>
 </div>
+
+<!-- Ads (Adsterra): banner + native only, website pages only, never while the game runs. -->
+<style>
+.adslot{display:flex;justify-content:center;align-items:center;margin:1.2rem auto;min-height:50px;max-width:100%;overflow:hidden}
+.adslot.adnative{display:block;margin:0 auto 1.5rem}
+.adslot:empty{min-height:0;margin:0}
+</style>
+<script>
+(function(){
+  var loaded=false;
+  function loadAds(){
+    if(loaded) return; loaded=true;
+    var slot=document.getElementById('adBanner');
+    if(slot){
+      var wide=window.innerWidth>=760;
+      window.atOptions={'key':wide?'5736930039acda39d2a16ba8cd649d11':'c0d24ededf2b6139f790018bac2b45c2','format':'iframe','height':wide?90:50,'width':wide?728:320,'params':{}};
+      var b=document.createElement('script'); b.src='https://bauval.org/22/'+window.atOptions.key; b.async=true; slot.appendChild(b);
+    }
+    var n=document.createElement('script'); n.async=true; n.setAttribute('data-cfasync','false');
+    n.src='https://bauval.org/21/8036884e71a93453e19c1b8d57bfe32a'; document.body.appendChild(n);
+  }
+  function siteVisible(){ var s=document.getElementById('site'); return s && s.offsetParent!==null; }
+  function tryLoad(){ if(siteVisible()) loadAds(); }
+  if(document.readyState==='complete') setTimeout(tryLoad,1500); else window.addEventListener('load',function(){ setTimeout(tryLoad,1500); });
+  window.addEventListener('scroll',tryLoad,{passive:true,once:true});
+})();
+</script>
 
 <!-- ================= LAUNCHER ================= -->
 <div id="app">
