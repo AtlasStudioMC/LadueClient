@@ -614,13 +614,10 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
     var slot=document.getElementById('adBanner');
     if(slot){
       var wide=window.innerWidth>=760, w=wide?728:320, h=wide?90:50;
-      var key=wide?'5736930039acda39d2a16ba8cd649d11':'c0d24ededf2b6139f790018bac2b45c2';
       var f=document.createElement('iframe');
       f.width=w; f.height=h; f.scrolling='no'; f.title='Advertisement';
       f.style.cssText='border:0;display:block;max-width:100%;background:transparent';
-      f.srcdoc='<!doctype html><html><head><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>'
-        +'<script>atOptions={"key":"'+key+'","format":"iframe","height":'+h+',"width":'+w+',"params":{}};<\/script>'
-        +'<script src="https://bauval.org/22/'+key+'"><\/script></body></html>';
+      f.src='ad.html?s='+(wide?'wide':'small');
       slot.appendChild(f);
     }
     var n=document.createElement('script'); n.async=true; n.setAttribute('data-cfasync','false');
@@ -976,12 +973,10 @@ async function launch(v,say){
 }
 /* ---------- Adsterra ads while playing: banner on the loading screen, small corner banner in game ---------- */
 function adFrame(wide){
-  const w=wide?728:320,h=wide?90:50,key=wide?"5736930039acda39d2a16ba8cd649d11":"c0d24ededf2b6139f790018bac2b45c2";
+  const w=wide?728:320,h=wide?90:50;
   const f=document.createElement("iframe");f.width=w;f.height=h;f.scrolling="no";f.title="Advertisement";
   f.style.cssText="border:0;display:block;max-width:100%;background:transparent";
-  f.srcdoc='<!doctype html><html><head><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>'
-    +'<script>atOptions={"key":"'+key+'","format":"iframe","height":'+h+',"width":'+w+',"params":{}};<\/script>'
-    +'<script src="https://bauval.org/22/'+key+'"><\/script></body></html>';
+  f.src="ad.html?s="+(wide?"wide":"small");
   return f;
 }
 function gameAds(boot){
