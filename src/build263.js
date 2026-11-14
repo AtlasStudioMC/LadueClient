@@ -1,7 +1,7 @@
 // Build games/v263.bin (Ladue Client 26.3) from the upstream Eaglercraft 26.3 single-file build.
 //   node src/build263.js <eaglercraft-26.3-*.html> <wispcraft index.js>
 // Steps: rebrand the wasm and page text, drop the ArchMC server entry, pre-add the Ladue server,
-// inject Wispcraft pointed at wss://ladue.cc.cd/wisp/, then the Ladue mod overlay. Finally it
+// inject Wispcraft pointed at wss://relay.ram-craft.net/wisp/, then the Ladue mod overlay. Finally it
 // cache-busts the game URL in index.html and src/engine.js.
 const fs = require("fs"), zlib = require("zlib"), path = require("path"), crypto = require("crypto");
 const root = path.resolve(__dirname, "..");
@@ -48,9 +48,9 @@ h = h.replace(/<title>[^<]*<\/title>/, "<title>Ladue Client 26.3</title>")
 // Wispcraft, always pointed at the Ladue relay
 let wc = fs.readFileSync(wispcraft, "utf8");
 if (!wc.includes("\"wss://anura.pro/\"")) throw new Error("wispcraft default url not found");
-wc = wc.replace("\"wss://anura.pro/\"", "\"wss://ladue.cc.cd/wisp/\"").replace(/\/\/# sourceMappingURL=.*$/m, "");
-const inject = `<script>try{localStorage.wispcraft_wispurl="wss://ladue.cc.cd/wisp/"}catch(e){}
-try{var K="_eaglercraftX.relay.list.v3",P={detected:"singleplayer",private:false,address:"wss://relay.eaglercraft.net",capability:"auto",name:"Eaglercraft Public"},L=[];try{L=JSON.parse(atob(localStorage.getItem(K)||""))}catch(e){}L=L.filter(function(r){return r.detected!=="multiplayer"});if(!L.length)L.push(P);L.push({detected:"multiplayer",private:false,address:"wss://ladue.cc.cd",capability:"auto",name:"Ladue"});localStorage.setItem(K,btoa(JSON.stringify(L)))}catch(e){}</script>\n<script>${wc.replace(/<\/script/gi, "<\\/script")}</script>\n`;
+wc = wc.replace("\"wss://anura.pro/\"", "\"wss://relay.ram-craft.net/wisp/\"").replace(/\/\/# sourceMappingURL=.*$/m, "");
+const inject = `<script>try{localStorage.wispcraft_wispurl="wss://relay.ram-craft.net/wisp/"}catch(e){}
+try{var K="_eaglercraftX.relay.list.v3",P={detected:"singleplayer",private:false,address:"wss://relay.eaglercraft.net",capability:"auto",name:"Eaglercraft Public"},L=[];try{L=JSON.parse(atob(localStorage.getItem(K)||""))}catch(e){}L=L.filter(function(r){return r.detected!=="multiplayer"});if(!L.length)L.push(P);L.push({detected:"multiplayer",private:false,address:"wss://relay.ram-craft.net",capability:"auto",name:"Ladue"});localStorage.setItem(K,btoa(JSON.stringify(L)))}catch(e){}</script>\n<script>${wc.replace(/<\/script/gi, "<\\/script")}</script>\n`;
 const at = h.indexOf("<head>") + 6; h = h.slice(0, at) + "\n" + inject + h.slice(at);
 
 // Ladue mod overlay + capes list
