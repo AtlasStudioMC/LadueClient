@@ -775,7 +775,8 @@ const load=(k,d)=>{try{return Object.assign({},d,JSON.parse(localStorage.getItem
 let save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 
 const VERSIONS=[
-  {id:"v262",name:"26.2",full:"Ram-Craft 26.2",desc:"Newest Minecraft. Ram-Craft server is already in Multiplayer",tag:["Latest","purple"],theme:false,cos:true},
+  {id:"v263",name:"26.3",full:"Ram-Craft 26.3",desc:"Newest Minecraft. Ram-Craft server is already in Multiplayer",tag:["Newest","purple"],theme:false,cos:true},
+  {id:"v262",name:"26.2",full:"Ram-Craft 26.2",desc:"Same version as the server. Ram-Craft is already in Multiplayer",tag:["Stable","green"],theme:false,cos:true},
   {id:"v18",name:"1.8.8",full:"Ram-Craft 1.8.8",desc:"Most stable, best for PvP and servers",tag:["Recommended","green"],theme:true,cos:true},
   {id:"v18w",name:"1.8.8 WASM",full:"Ram-Craft 1.8.8 WASM-GC",desc:"Same game, faster on new Chrome/Edge",tag:["Fastest","purple"],theme:true,cos:true},
   {id:"v112",name:"1.12.2",full:"Ram-Craft 1.12.2",desc:"Newer blocks and mobs, early development",tag:["Older",""],theme:true,cos:true},
@@ -965,51 +966,148 @@ const status=$("#status");
 async function launch(v,say){
   if(v.theme&&sets.theme&&GAMES[v.id])try{await installPack(v.id)}catch(e){console.warn("Astra: pack install failed",e)}
   if(v.cos)await applyCosmetics(v.id,cos);
-  if(v.id==="v262")try{await installLaduePack()}catch(e){console.warn("Ram-Craft: pack install failed",e)}
+  if(v.id==="v262"||v.id==="v263")try{await installLaduePack()}catch(e){console.warn("Ram-Craft: pack install failed",e)}
   say("Loading "+v.name+"...");
   const html=await unpack(v.id,p=>say("Downloading "+v.name+"... "+p+"%"));
   // replace the page with the game so it runs top-level (gamepad, storage, pointer lock work)
   document.open();document.write(html);document.close();
 }
-/* ---------- Adsterra ads while playing: banner on the loading screen, small corner banner in game ---------- */
-function adFrame(wide){
-  const w=wide?728:320,h=wide?90:50;
-  const f=document.createElement("iframe");f.width=w;f.height=h;f.scrolling="no";f.title="Advertisement";
-  f.style.cssText="border:0;display:block;max-width:100%;background:transparent";
-  f.src="ad.html?s="+(wide?"wide":"small");
+/* ---------- player page: the game runs inside the site, with a toolbar and ads around it ---------- */
+function adSlot(size){
+  const dims={wide:[728,90],small:[320,50],sky:[160,600],rect:[300,250]}[size];
+  const f=document.createElement("iframe");f.width=dims[0];f.height=dims[1];f.scrolling="no";f.title="Advertisement";
+  f.loading="lazy";f.src="ad.html?s="+size;f.style.cssText="border:0;display:block;background:transparent";
   return f;
 }
-function gameAds(boot){
-  const top=document.createElement("div");top.style.cssText="margin-top:22px;display:flex;justify-content:center;max-width:96vw;overflow:hidden";
-  top.appendChild(adFrame(innerWidth>=760));(boot.querySelector(".boot-in")||boot).appendChild(top);
-  let hideUntil=0;try{hideUntil=+localStorage.getItem("ram.adHide")||0}catch(e){}
-  const box=document.createElement("div");box.id="gameAd";
-  box.style.cssText="position:fixed;right:8px;bottom:8px;z-index:2147483000;background:#071026cc;border:1px solid #2a4686;border-radius:8px;padding:4px;display:none";
-  const x=document.createElement("button");x.textContent="×";x.title="Hide ads for 15 minutes";
-  x.style.cssText="position:absolute;top:-10px;left:-10px;width:22px;height:22px;border-radius:50%;border:1px solid #2a4686;background:#0c1838;color:#fff;font:14px/1 system-ui;cursor:pointer;padding:0";
-  const show=()=>{if(Date.now()<hideUntil)return;box.innerHTML="";box.appendChild(x);box.appendChild(adFrame(false));box.style.display="block"};
-  x.onclick=()=>{box.style.display="none";box.innerHTML="";hideUntil=Date.now()+15*60000;try{localStorage.setItem("ram.adHide",hideUntil)}catch(e){}setTimeout(show,15*60000+1000)};
-  document.body.appendChild(box);
-  setTimeout(show,20000);
+function playerPage(v){
+  document.title="Play "+v.full+" | Ram-Craft";
+  const st=document.createElement("style");
+  st.textContent=`
+  body.player{margin:0;background:#060b18;color:#e8eeff;font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+  body.player #site,body.player #app{display:none!important}
+  .pl-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:10px 18px;background:#0a1430ee;border-bottom:1px solid #1c3266;backdrop-filter:blur(8px)}
+  .pl-logo{display:flex;align-items:center;gap:10px;font:800 18px/1 system-ui;letter-spacing:2px;color:#fff;text-decoration:none}
+  .pl-logo img{width:30px;height:30px}
+  .pl-vers{display:flex;gap:6px;margin-left:10px;flex-wrap:wrap}
+  .pl-vers a{padding:7px 12px;border-radius:999px;background:#13254f;color:#c9d6f5;text-decoration:none;font-weight:700;font-size:13px;border:1px solid #1c3266}
+  .pl-vers a.on{background:#5b8def;color:#fff;border-color:#5b8def}
+  .pl-sp{flex:1}
+  .pl-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;background:#13254f;border:1px solid #2a4686;color:#fff;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none}
+  .pl-btn:hover{background:#1b3166}.pl-btn.gold{background:linear-gradient(135deg,#ffb000,#ffd86b);color:#1a1200;border-color:#ffb000}
+  .pl-btn.red{background:#3a1520;border-color:#6b2333;color:#ff9db0}
+  .pl-ad{display:flex;justify-content:center;align-items:center;flex-direction:column;gap:4px}
+  .pl-ad small{font-size:10px;letter-spacing:2px;color:#5d6f99;text-transform:uppercase}
+  .pl-main{display:grid;grid-template-columns:180px minmax(0,1fr) 180px;gap:18px;max-width:1700px;margin:0 auto;padding:16px 18px}
+  .pl-rail{display:flex;flex-direction:column;align-items:center;gap:18px;position:sticky;top:74px;align-self:start}
+  .pl-stage{display:flex;flex-direction:column;gap:10px;min-width:0}
+  .pl-frame{position:relative;width:100%;aspect-ratio:16/9;max-height:calc(100vh - 230px);background:#000;border-radius:14px;overflow:hidden;border:1px solid #1c3266;box-shadow:0 20px 60px #0008}
+  .pl-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+  .pl-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0a1430;border:1px solid #1c3266;border-radius:12px;flex-wrap:wrap}
+  .pl-bar b{font-size:15px}.pl-dot{width:9px;height:9px;border-radius:50%;background:#47d18c;display:inline-block;margin-right:6px}
+  .pl-info{color:#8d97b5;font-size:13px}
+  .pl-under{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .pl-card{background:#0a1430;border:1px solid #1c3266;border-radius:12px;padding:14px;font-size:14px;color:#c9d6f5}
+  .pl-card h4{margin:0 0 6px;color:#fff;font-size:14px}
+  .pl-card code{background:#13254f;padding:2px 6px;border-radius:6px;color:#ffd86b}
+  @media (max-width:1150px){.pl-main{grid-template-columns:minmax(0,1fr)}.pl-rail{display:none}}
+  @media (max-width:700px){.pl-vers{display:none}.pl-top .hide-sm{display:none}}
+  `;
+  document.head.appendChild(st);
+  document.body.classList.add("player");
+  const others=VERSIONS.map(x=>`<a href="?play=${x.id}" class="${x.id===v.id?"on":""}">${x.name}</a>`).join("");
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+  <header class="pl-top">
+    <a class="pl-logo" href="./"><img src="src/pack/logo_clear.png" alt="">RAM-CRAFT</a>
+    <nav class="pl-vers">${others}</nav>
+    <div class="pl-sp"></div>
+    <a class="pl-btn gold hide-sm" href="https://www.ram-craft.net/download/index.html" download="index.html">⬇ Download client</a>
+    <a class="pl-btn hide-sm" href="https://chat.ram-craft.net/" target="_blank" rel="noopener">💬 Ram-Chat</a>
+    <a class="pl-btn" href="./">← Launcher</a>
+  </header>
+  <div class="pl-ad" style="padding-top:12px"><small>Advertisement</small><div id="adTop"></div></div>
+  <div class="pl-main">
+    <aside class="pl-rail"><div class="pl-ad"><small>Advertisement</small><div id="adL1"></div></div><div class="pl-ad"><small>Advertisement</small><div id="adL2"></div></div></aside>
+    <section class="pl-stage">
+      <div class="pl-frame" id="plFrame"></div>
+      <div class="pl-bar">
+        <span><span class="pl-dot"></span><b>${v.full}</b></span>
+        <span class="pl-info" id="plInfo">Server: ram-craft.net</span>
+        <span class="pl-sp"></span>
+        <button class="pl-btn" id="plFull">⛶ Fullscreen</button>
+        <button class="pl-btn" id="plReload">↻ Reload</button>
+        <a class="pl-btn" id="plPop" href="?play=${v.id}&frame=1" target="_blank" rel="noopener">↗ Pop out</a>
+        <a class="pl-btn red" href="./">⏻ Exit game</a>
+      </div>
+      <div class="pl-ad"><small>Advertisement</small><div id="adBottom"></div></div>
+      <div class="pl-under">
+        <div class="pl-card"><h4>🎮 Join the server</h4>Ram-Craft is already in Multiplayer. Java Edition players join with <code>ram-craft.net</code> (26.2 or 26.3).</div>
+        <div class="pl-card"><h4>⬇ Better experience</h4>Download the client as one <code>index.html</code> file and open it any time, even when this site is blocked.</div>
+        <div class="pl-card"><h4>💬 Ram-Chat</h4>Snaps, chats and stories with your Ram-Craft friends at <code>chat.ram-craft.net</code>.</div>
+      </div>
+      <div class="pl-ad" style="padding-bottom:18px"><small>Advertisement</small><div id="adNative"><div id="container-8036884e71a93453e19c1b8d57bfe32a"></div></div></div>
+    </section>
+    <aside class="pl-rail"><div class="pl-ad"><small>Advertisement</small><div id="adR1"></div></div><div class="pl-ad"><small>Advertisement</small><div id="adR2"></div></div></aside>
+  </div>`;
+  document.body.appendChild(wrap);
+  const frame=document.createElement("iframe");
+  frame.allow="fullscreen; gamepad; autoplay; clipboard-read; clipboard-write; pointer-lock";
+  frame.allowFullscreen=true;frame.title=v.full;
+  frame.src="?play="+v.id+"&frame=1";
+  $("#plFrame").appendChild(frame);
+  frame.addEventListener("load",()=>{try{frame.contentWindow.focus()}catch(e){}});
+  $("#plFull").onclick=()=>{(frame.requestFullscreen||frame.webkitRequestFullscreen).call(frame)};
+  $("#plReload").onclick=()=>{frame.src="?play="+v.id+"&frame=1&r="+Date.now()};
+  fetch("https://map.ladue.cc.cd/status").then(r=>r.json()).then(d=>{if(d.online)$("#plInfo").textContent="Server: ram-craft.net · "+d.players.online+" online"}).catch(()=>{});
+  // ads (top/bottom banner, two rails each side, native under the game)
+  const wide=innerWidth>=800;
+  $("#adTop").appendChild(adSlot(wide?"wide":"small"));
+  $("#adBottom").appendChild(adSlot(wide?"wide":"small"));
+  if(innerWidth>1150){["adL1","adR1"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));["adL2","adR2"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));}
+  const n=document.createElement("script");n.async=true;n.setAttribute("data-cfasync","false");
+  n.src="https://bauval.org/21/8036884e71a93453e19c1b8d57bfe32a";document.body.appendChild(n);
+}
+
+/* ---------- "download the client" popup on the website ---------- */
+function downloadPopup(){
+  let seen=0;try{seen=+localStorage.getItem("ram.dlPopup")||0}catch(e){}
+  if(Date.now()-seen<3*864e5)return; // at most every 3 days
+  const st=document.createElement("style");
+  st.textContent=`.dlp{position:fixed;inset:0;z-index:100000;background:#0009;display:flex;align-items:center;justify-content:center;padding:16px;animation:dlpIn .25s}
+  @keyframes dlpIn{from{opacity:0}to{opacity:1}}
+  .dlp .box{background:linear-gradient(160deg,#0f1f47,#081230);border:1px solid #2a4686;border-radius:18px;max-width:440px;width:100%;padding:26px;color:#e8eeff;font-family:Inter,system-ui,sans-serif;box-shadow:0 30px 80px #000a;text-align:center}
+  .dlp h3{margin:10px 0 6px;font-size:22px}.dlp p{margin:0 0 18px;color:#a9b7d6;font-size:15px;line-height:1.45}
+  .dlp .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .dlp a,.dlp button{padding:11px 18px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;text-decoration:none;border:1px solid #2a4686;background:#13254f;color:#fff}
+  .dlp a{background:linear-gradient(135deg,#ffb000,#ffd86b);color:#1a1200;border-color:#ffb000}`;
+  document.head.appendChild(st);
+  const el=document.createElement("div");el.className="dlp";
+  el.innerHTML=`<div class="box"><div style="font-size:46px">⬇</div><h3>Download the client</h3>
+  <p>Get a better experience: download Ram-Craft as one <b>index.html</b> file. Open it any time to play, even when this site is blocked.</p>
+  <div class="row"><a href="https://www.ram-craft.net/download/index.html" download="index.html">Download index.html</a><button type="button">Not now</button></div></div>`;
+  const close=()=>{el.remove();try{localStorage.setItem("ram.dlPopup",Date.now())}catch(e){}};
+  el.querySelector("button").onclick=close;el.querySelector("a").addEventListener("click",()=>setTimeout(close,300));
+  el.addEventListener("click",e=>{if(e.target===el)close()});
+  document.body.appendChild(el);
 }
 $("#playBtn").onclick=async()=>{
   const v=VERSIONS.find(x=>x.id===sets.version);
-  const tab=window.open(location.pathname+"?play="+encodeURIComponent(v.id),"_blank");
-  if(tab){status.textContent=v.full+" opened in a new tab.";return}
+  location.href=location.pathname+"?play="+encodeURIComponent(v.id);return;
   // popup blocked: start it here instead
   $("#playBtn").disabled=true;status.textContent="Preparing "+v.name+"...";
   try{await launch(v,t=>status.textContent=t)}catch(e){status.textContent="Failed to launch: "+e;$("#playBtn").disabled=false}
 };
 {
-  const id=new URLSearchParams(location.search).get("play"),v=id&&VERSIONS.find(x=>x.id===id);
-  if(v){
+  const qs=new URLSearchParams(location.search),id=qs.get("play"),v=id&&VERSIONS.find(x=>x.id===id);
+  if(v&&!qs.get("frame"))playerPage(v);
+  else if(v){
     const boot=document.createElement("div");boot.id="boot";
     boot.innerHTML='<div class="boot-in"><img src="src/pack/logo_clear.png" alt=""><div class="boot-name">RAM-CRAFT CLIENT</div><div class="boot-ver">'+v.name+'</div><div class="boot-bar"><i></i></div><div class="boot-msg">Preparing...</div></div>';
     document.body.appendChild(boot);document.title="Ram-Craft Client "+v.name;
     const msg=boot.querySelector(".boot-msg"),bar=boot.querySelector(".boot-bar i");
     launch(v,t=>{msg.textContent=t;const p=/(d+)%/.exec(t);if(p)bar.style.width=p[1]+"%"}).catch(e=>{msg.textContent="Failed to launch: "+e});
-    gameAds(boot);
   }
+  else setTimeout(downloadPopup,6000);
 }
 
 

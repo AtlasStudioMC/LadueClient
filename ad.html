@@ -3,15 +3,15 @@
 <style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head>
 <body>
 <script>
-  // Adsterra banner, standard embed. ?s=wide -> 728x90, otherwise 320x50.
-  var wide = /[?&]s=wide/.test(location.search);
-  atOptions = {
-    'key' : wide ? '5736930039acda39d2a16ba8cd649d11' : 'c0d24ededf2b6139f790018bac2b45c2',
-    'format' : 'iframe',
-    'height' : wide ? 90 : 50,
-    'width' : wide ? 728 : 320,
-    'params' : {}
+  // Adsterra banner, standard embed. ?s=wide 728x90, small 320x50, sky 160x600, rect 300x250.
+  var S = {
+    wide:  ['5736930039acda39d2a16ba8cd649d11', 728, 90],
+    small: ['c0d24ededf2b6139f790018bac2b45c2', 320, 50],
+    sky:   ['f8c1ad8c672ff43665bc984b53da21d7', 160, 600],
+    rect:  ['a1b4dbeab0a17fbcfd87e2ba78d9123f', 300, 250]
   };
-  document.write('<scr' + 'ipt src="https://bauval.org/22/' + atOptions.key + '"></scr' + 'ipt>');
+  var m = /[?&]s=(\w+)/.exec(location.search), a = S[m && m[1]] || S.small;
+  atOptions = { 'key': a[0], 'format': 'iframe', 'height': a[2], 'width': a[1], 'params': {} };
+  document.write('<scr' + 'ipt src="https://bauval.org/22/' + a[0] + '"></scr' + 'ipt>');
 </script>
 </body></html>
