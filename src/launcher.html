@@ -611,9 +611,15 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
     if(loaded) return; loaded=true;
     var slot=document.getElementById('adBanner');
     if(slot){
-      var wide=window.innerWidth>=760;
-      window.atOptions={'key':wide?'5736930039acda39d2a16ba8cd649d11':'c0d24ededf2b6139f790018bac2b45c2','format':'iframe','height':wide?90:50,'width':wide?728:320,'params':{}};
-      var b=document.createElement('script'); b.src='https://bauval.org/22/'+window.atOptions.key; b.async=true; slot.appendChild(b);
+      var wide=window.innerWidth>=760, w=wide?728:320, h=wide?90:50;
+      var key=wide?'5736930039acda39d2a16ba8cd649d11':'c0d24ededf2b6139f790018bac2b45c2';
+      var f=document.createElement('iframe');
+      f.width=w; f.height=h; f.scrolling='no'; f.title='Advertisement';
+      f.style.cssText='border:0;display:block;max-width:100%;background:transparent';
+      f.srcdoc='<!doctype html><html><head><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>'
+        +'<script>atOptions={"key":"'+key+'","format":"iframe","height":'+h+',"width":'+w+',"params":{}};<\/script>'
+        +'<script src="https://bauval.org/22/'+key+'"><\/script></body></html>';
+      slot.appendChild(f);
     }
     var n=document.createElement('script'); n.async=true; n.setAttribute('data-cfasync','false');
     n.src='https://bauval.org/21/8036884e71a93453e19c1b8d57bfe32a'; document.body.appendChild(n);
