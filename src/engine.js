@@ -14,7 +14,7 @@ async function unpack(id,onProgress){
     })()}});
   }else{
     // hosted build: download the gzipped game file
-    const res=await fetch('games/'+id+'.bin?v='+({v262:'f450b075cd',v263:'ef57c6640c'}[id]||'1'),{cache:'no-cache'});
+    const res=await fetch('games/'+id+'.bin?v='+({v262:'945101d504',v263:'4524042292'}[id]||'1'),{cache:'no-cache'});
     if(!res.ok)throw new Error('could not download game ('+res.status+')');
     const total=+res.headers.get('content-length')||0;let got=0;
     const reader=res.body.getReader();
@@ -185,7 +185,7 @@ async function installLaduePack(){
       try{const d=has.result&&has.result.data;if(d)list=nbtRead(new Uint8Array(d)).v.get('servers').v}catch(e){list=[]}
       const s=(e,k)=>{const x=e.v.get(k);return x?String(x.v):''};
       // drop old ArchMC entries and the launcher-made Ram-Craft entry; the game pins its own Ram-Craft entry
-      list=list.filter(e=>!/0.0.0.0|arch.mc|archmc/i.test(s(e,'ip')+' '+s(e,'name'))&&!['ram-craft.net','ladue.cc.cd'].includes(s(e,'ip')));
+      list=list.filter(e=>!/0.0.0.0|arch.mc|archmc/i.test(s(e,'ip')+' '+s(e,'name'))&&!['ram-craft.net','ladue.cc.cd'].includes(s(e,'ip'))&&!/ladue/i.test(s(e,'ip')+' '+s(e,'name')));
       put('servers.dat',nbtWrite({t:10,v:new Map([['servers',{t:9,et:10,v:list}]])}));
     };
     tx.oncomplete=ok;tx.onerror=()=>no(tx.error)});
