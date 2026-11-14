@@ -387,7 +387,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
 .news li{border-left:2px solid #fff;padding-left:.6rem}.news b{display:block;color:#fff;font-size:.9rem}.news small{color:#a9b7d6;font-size:.8rem;line-height:1.35}
 @media (max-width:900px){#app .page[data-page=play].on{grid-template-columns:1fr}.playside{padding-bottom:2rem}}
 </style>
-<script>window.LADUE_SITE_VERSION="mwgqk57j";
+<script>window.LADUE_SITE_VERSION="mwgqy3rs";
 /* Auto-update: GitHub Pages lets browsers keep the page for up to 10 minutes, so an open or
    cached copy checks version.json (always fetched fresh) and reloads itself when the site changes. */
 (function(){
@@ -1178,6 +1178,29 @@ async function launch(v,say){
   // replace the page with the game so it runs top-level (gamepad, storage, pointer lock work)
   document.open();document.write(html);document.close();
 }
+/* ---------- Adsterra ads while playing: banner on the loading screen, small corner banner in game ---------- */
+function adFrame(wide){
+  const w=wide?728:320,h=wide?90:50,key=wide?"5736930039acda39d2a16ba8cd649d11":"c0d24ededf2b6139f790018bac2b45c2";
+  const f=document.createElement("iframe");f.width=w;f.height=h;f.scrolling="no";f.title="Advertisement";
+  f.style.cssText="border:0;display:block;max-width:100%;background:transparent";
+  f.srcdoc='<!doctype html><html><head><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>'
+    +'<script>atOptions={"key":"'+key+'","format":"iframe","height":'+h+',"width":'+w+',"params":{}};<\/script>'
+    +'<script src="https://bauval.org/22/'+key+'"><\/script></body></html>';
+  return f;
+}
+function gameAds(boot){
+  const top=document.createElement("div");top.style.cssText="margin-top:22px;display:flex;justify-content:center;max-width:96vw;overflow:hidden";
+  top.appendChild(adFrame(innerWidth>=760));(boot.querySelector(".boot-in")||boot).appendChild(top);
+  let hideUntil=0;try{hideUntil=+localStorage.getItem("ram.adHide")||0}catch(e){}
+  const box=document.createElement("div");box.id="gameAd";
+  box.style.cssText="position:fixed;right:8px;bottom:8px;z-index:2147483000;background:#071026cc;border:1px solid #2a4686;border-radius:8px;padding:4px;display:none";
+  const x=document.createElement("button");x.textContent="×";x.title="Hide ads for 15 minutes";
+  x.style.cssText="position:absolute;top:-10px;left:-10px;width:22px;height:22px;border-radius:50%;border:1px solid #2a4686;background:#0c1838;color:#fff;font:14px/1 system-ui;cursor:pointer;padding:0";
+  const show=()=>{if(Date.now()<hideUntil)return;box.innerHTML="";box.appendChild(x);box.appendChild(adFrame(false));box.style.display="block"};
+  x.onclick=()=>{box.style.display="none";box.innerHTML="";hideUntil=Date.now()+15*60000;try{localStorage.setItem("ram.adHide",hideUntil)}catch(e){}setTimeout(show,15*60000+1000)};
+  document.body.appendChild(box);
+  setTimeout(show,20000);
+}
 $("#playBtn").onclick=async()=>{
   const v=VERSIONS.find(x=>x.id===sets.version);
   const tab=window.open(location.pathname+"?play="+encodeURIComponent(v.id),"_blank");
@@ -1194,6 +1217,7 @@ $("#playBtn").onclick=async()=>{
     document.body.appendChild(boot);document.title="Ram-Craft Client "+v.name;
     const msg=boot.querySelector(".boot-msg"),bar=boot.querySelector(".boot-bar i");
     launch(v,t=>{msg.textContent=t;const p=/(d+)%/.exec(t);if(p)bar.style.width=p[1]+"%"}).catch(e=>{msg.textContent="Failed to launch: "+e});
+    gameAds(boot);
   }
 }
 
