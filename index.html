@@ -548,7 +548,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
     </div>
   </section>
 
-  <div class="wrap"><div class="adslot adnative" aria-label="Advertisement"><div id="container-8036884e71a93453e19c1b8d57bfe32a"></div></div></div>
+  
 
   <div class="wrap">
     <section class="block" id="faq">
@@ -600,7 +600,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
   </footer>
 </div>
 
-<!-- Ads (Adsterra): banner + native only, website pages only, never while the game runs. -->
+<!-- Ads (Adsterra): banners only (no native, no social bar, no popunders), website pages only, never while the game runs. -->
 <style>
 .adslot{display:flex;justify-content:center;align-items:center;margin:1.2rem auto;min-height:50px;max-width:100%;overflow:hidden}
 .adslot.adnative{display:block;margin:0 auto 1.5rem}
@@ -615,13 +615,11 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
     if(slot){
       var wide=window.innerWidth>=760, w=wide?728:320, h=wide?90:50;
       var f=document.createElement('iframe');
-      f.width=w; f.height=h; f.scrolling='no'; f.title='Advertisement';
+      f.width=w; f.height=h; f.scrolling='no'; f.title='Advertisement'; f.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox');
       f.style.cssText='border:0;display:block;max-width:100%;background:transparent';
       f.src='ad.html?s='+(wide?'wide':'small');
       slot.appendChild(f);
     }
-    var n=document.createElement('script'); n.async=true; n.setAttribute('data-cfasync','false');
-    n.src='https://bauval.org/21/8036884e71a93453e19c1b8d57bfe32a'; document.body.appendChild(n);
   }
   function siteVisible(){ var s=document.getElementById('site'); return s && s.offsetParent!==null; }
   function tryLoad(){ if(siteVisible()) loadAds(); }
@@ -1181,7 +1179,7 @@ async function launch(v,say){
 /* ---------- player page: the game runs inside the site, with a toolbar and ads around it ---------- */
 function adSlot(size){
   const dims={wide:[728,90],small:[320,50],sky:[160,600],rect:[300,250]}[size];
-  const f=document.createElement("iframe");f.width=dims[0];f.height=dims[1];f.scrolling="no";f.title="Advertisement";
+  const f=document.createElement("iframe");f.width=dims[0];f.height=dims[1];f.scrolling="no";f.title="Advertisement";f.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
   f.loading="lazy";f.src="ad.html?s="+size;f.style.cssText="border:0;display:block;background:transparent";
   return f;
 }
@@ -1251,7 +1249,6 @@ function playerPage(v){
         <div class="pl-card"><h4>⬇ Better experience</h4>Download the client as one <code>index.html</code> file and open it any time, even when this site is blocked.</div>
         <div class="pl-card"><h4>💬 Ram-Chat</h4>Snaps, chats and stories with your Ram-Craft friends at <code>chat.ram-craft.net</code>.</div>
       </div>
-      <div class="pl-ad" style="padding-bottom:18px"><small>Advertisement</small><div id="adNative"><div id="container-8036884e71a93453e19c1b8d57bfe32a"></div></div></div>
     </section>
     <aside class="pl-rail"><div class="pl-ad"><small>Advertisement</small><div id="adR1"></div></div><div class="pl-ad"><small>Advertisement</small><div id="adR2"></div></div></aside>
   </div>`;
@@ -1265,13 +1262,11 @@ function playerPage(v){
   $("#plFull").onclick=()=>{(frame.requestFullscreen||frame.webkitRequestFullscreen).call(frame)};
   $("#plReload").onclick=()=>{frame.src="?play="+v.id+"&frame=1&r="+Date.now()};
   fetch("https://map.ladue.cc.cd/status").then(r=>r.json()).then(d=>{if(d.online)$("#plInfo").textContent="Server: ram-craft.net · "+d.players.online+" online"}).catch(()=>{});
-  // ads (top/bottom banner, two rails each side, native under the game)
+  // ads: banners only (top/bottom banner, two rails each side)
   const wide=innerWidth>=800;
   $("#adTop").appendChild(adSlot(wide?"wide":"small"));
   $("#adBottom").appendChild(adSlot(wide?"wide":"small"));
   if(innerWidth>1150){["adL1","adR1"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));["adL2","adR2"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));}
-  const n=document.createElement("script");n.async=true;n.setAttribute("data-cfasync","false");
-  n.src="https://bauval.org/21/8036884e71a93453e19c1b8d57bfe32a";document.body.appendChild(n);
 }
 
 /* ---------- "download the client" popup on the website ---------- */
@@ -1432,6 +1427,5 @@ paintIcons();renderAccount();restoreSession();
 if(location.hash==="#launcher")openApp("play");
 </script>
 <script>try{if(window.top!==window||/[?&]app=1/.test(location.search))document.documentElement.classList.add("in-app")}catch(e){document.documentElement.classList.add("in-app")}</script><style>.in-app a[download],.in-app a[href*="/download/index.html"]{display:none!important}</style>
-<script>/* Adsterra Social Bar (mainstream): website pages, not inside the running game frame */(function(){if(/[?&]frame=1/.test(location.search))return;window.addEventListener("load",function(){setTimeout(function(){var s=document.createElement("script");s.setAttribute("data-cfasync","false");s.src="https://bauval.org/14/f9e71bbeceec82cc0681e87b9394aff4";document.body.appendChild(s)},3000)})})();</script>
 </body>
 </html>
