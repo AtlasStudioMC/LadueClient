@@ -1238,6 +1238,7 @@ function playerPage(v){
         <span><span class="pl-dot"></span><b>${v.full}</b></span>
         <span class="pl-info" id="plInfo">Server: ram-craft.net</span>
         <span class="pl-sp"></span>
+        <button class="pl-btn" id="plVoice" title="Voice chat with everyone playing on this site. Hold V to talk.">🎙 Voice: Off</button>
         <button class="pl-btn" id="plFull">⛶ Fullscreen</button>
         <button class="pl-btn" id="plReload">↻ Reload</button>
         <a class="pl-btn" id="plPop" href="?play=${v.id}&frame=1" target="_blank" rel="noopener">↗ Pop out</a>
@@ -1261,12 +1262,81 @@ function playerPage(v){
   frame.addEventListener("load",()=>{try{frame.contentWindow.focus()}catch(e){}});
   $("#plFull").onclick=()=>{(frame.requestFullscreen||frame.webkitRequestFullscreen).call(frame)};
   $("#plReload").onclick=()=>{frame.src="?play="+v.id+"&frame=1&r="+Date.now()};
+  ramVoice(frame);
   fetch("https://map.ram-craft.net/status").then(r=>r.json()).then(d=>{if(d.online)$("#plInfo").textContent="Server: ram-craft.net · "+d.players.online+" online"}).catch(()=>{});
   // ads: banners only (top/bottom banner, two rails each side)
   const wide=innerWidth>=800;
   $("#adTop").appendChild(adSlot(wide?"wide":"small"));
   $("#adBottom").appendChild(adSlot(wide?"wide":"small"));
   if(innerWidth>1150){["adL1","adR1"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));["adL2","adR2"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));}
+}
+
+/* ---------- Ram-Craft voice chat (play page) ----------
+   One voice channel for everyone playing on the site. relay.ram-craft.net/voice only introduces
+   players and passes WebRTC setup messages; the audio goes straight between browsers.
+   Hold V to talk (push-to-talk), or switch to open mic. */
+function ramVoice(frame){
+  const btn=$("#plVoice"); if(!btn||!window.RTCPeerConnection||!navigator.mediaDevices)return btn&&(btn.style.display="none");
+  const ICE=[{urls:"stun:stun.cloudflare.com:3478"},{urls:"stun:stun.l.google.com:19302"}];
+  const V={ws:null,mic:null,peers:{},names:{},talking:{},on:false,open:false,held:false};
+  const pill=document.createElement("span");pill.className="pl-info";pill.id="plVoiceInfo";btn.after(pill);
+  const mode=document.createElement("button");mode.className="pl-btn";mode.style.display="none";btn.after(mode);
+  const live=()=>!!(V.mic&&V.mic.getAudioTracks()[0]&&V.mic.getAudioTracks()[0].enabled);
+  const hud=()=>{
+    btn.textContent=V.on?"🎙 Voice: On":"🎙 Voice: Off";btn.classList.toggle("gold",V.on);
+    mode.style.display=V.on?"":"none";mode.textContent=V.open?"Mode: open mic":"Mode: hold V";
+    if(!V.on){pill.textContent="";return}
+    const who=Object.keys(V.talking).filter(k=>V.talking[k]).map(k=>V.names[k]||"?");
+    pill.textContent=(live()?"🔴 talking · ":"")+(Object.keys(V.peers).length+1)+" in voice"+(who.length?" · 🔊 "+who.join(", "):"");
+  };
+  const setMic=on=>{if(!V.mic)return;const was=live();V.mic.getAudioTracks().forEach(t=>t.enabled=on);
+    if(was!==on&&V.ws&&V.ws.readyState===1)V.ws.send(JSON.stringify({t:"talk",on}));hud()};
+  const send=(to,data)=>{if(V.ws&&V.ws.readyState===1)V.ws.send(JSON.stringify({t:"signal",to,data}))};
+  const peer=(id,init)=>{
+    const pc=new RTCPeerConnection({iceServers:ICE}),audio=new Audio();audio.autoplay=true;
+    V.peers[id]={pc,audio};V.mic.getTracks().forEach(t=>pc.addTrack(t,V.mic));
+    pc.ontrack=e=>{audio.srcObject=e.streams[0];audio.play().catch(()=>{})};
+    pc.onicecandidate=e=>{if(e.candidate)send(id,{ice:e.candidate})};
+    pc.onconnectionstatechange=()=>{if(["failed","closed"].includes(pc.connectionState))drop(id)};
+    if(init)pc.createOffer().then(o=>pc.setLocalDescription(o)).then(()=>send(id,{sdp:pc.localDescription}));
+    return V.peers[id];
+  };
+  const drop=id=>{const p=V.peers[id];if(!p)return;try{p.pc.close()}catch(e){}p.audio.srcObject=null;delete V.peers[id];delete V.talking[id];hud()};
+  async function signal(from,d){
+    const p=V.peers[from]||peer(from,false);
+    if(d.sdp){await p.pc.setRemoteDescription(d.sdp);if(d.sdp.type==="offer"){await p.pc.setLocalDescription(await p.pc.createAnswer());send(from,{sdp:p.pc.localDescription})}}
+    else if(d.ice){try{await p.pc.addIceCandidate(d.ice)}catch(e){}}
+  }
+  async function join(){
+    let name="";try{name=localStorage.getItem("ram.voiceName")||""}catch(e){}
+    if(!name){name=(prompt("Your name in voice chat (your first name):")||"").trim().slice(0,16);if(!name)return;try{localStorage.setItem("ram.voiceName",name)}catch(e){}}
+    try{V.mic=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}})}
+    catch(e){alert("Voice chat needs microphone access. Allow the microphone for this site and try again.");return}
+    V.mic.getAudioTracks().forEach(t=>t.enabled=false);
+    V.on=true;hud();
+    const ws=V.ws=new WebSocket("wss://relay.ram-craft.net/voice?name="+encodeURIComponent(name));
+    ws.onmessage=ev=>{let m;try{m=JSON.parse(ev.data)}catch(e){return}
+      if(m.t==="welcome"){V.me=m.id;for(const p of m.peers){V.names[p.id]=p.name;peer(p.id,true)}hud()}
+      else if(m.t==="join"){V.names[m.id]=m.name;hud()}
+      else if(m.t==="leave")drop(m.id);
+      else if(m.t==="signal")signal(m.from,m.data);
+      else if(m.t==="talk"){V.talking[m.id]=m.on;hud()}
+      else if(m.t==="full"){alert("Voice chat is full right now (24 people). Try again later.");leave()}};
+    ws.onclose=()=>{if(V.on&&V.ws===ws){V.ws=null;setTimeout(()=>{if(V.on){leave();join()}},3000)}};
+    if(V.open)setMic(true);
+  }
+  function leave(){V.on=false;const ws=V.ws;V.ws=null;try{ws&&ws.close()}catch(e){}
+    Object.keys(V.peers).forEach(drop);if(V.mic)V.mic.getTracks().forEach(t=>t.stop());V.mic=null;V.talking={};hud()}
+  btn.onclick=()=>V.on?leave():join();
+  mode.onclick=()=>{V.open=!V.open;setMic(V.open);hud()};
+  // push-to-talk: V, in the page and inside the game frame (same site). Ignored while typing in chat boxes.
+  const typing=e=>{const t=e.target;return t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA"||t.isContentEditable)};
+  const down=e=>{if(!V.on||V.open||e.code!=="KeyV"||e.repeat||typing(e))return;setMic(true)};
+  const up=e=>{if(!V.on||V.open||e.code!=="KeyV")return;setMic(false)};
+  const hook=w=>{try{w.addEventListener("keydown",down,true);w.addEventListener("keyup",up,true);w.addEventListener("blur",()=>{if(!V.open)setMic(false)})}catch(e){}};
+  hook(window);frame.addEventListener("load",()=>hook(frame.contentWindow));
+  addEventListener("beforeunload",leave);
+  hud();
 }
 
 /* ---------- "download the client" popup on the website ---------- */
