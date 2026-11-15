@@ -15,9 +15,9 @@ const w = zlib.brotliDecompressSync(Buffer.from(m[3].replace(/\s+/g, ""), "base6
 
 // same-length swaps inside the compiled game
 const SWAPS = [
-  // the game always pins this built-in server to the top of Multiplayer, so make it Ladue
-  // (the relay ignores the port and sends ladue.cc.cd to the Ladue server)
-  ["ArchMC\x0dwss://arch.mc", "Ladue \x0dladue.cc.cd:1"],
+  // the game always pins this built-in server to the top of Multiplayer, so make it Ram-Craft
+  // (name and address are length-prefixed: 6 + 13 bytes)
+  ["ArchMC\x0dwss://arch.mc", "Ram MC\x0dram-craft.net"],
   ["Made by ArchMC", "Made by Ladue "],
   ["wss://.ws://.arch.mc", "wss://.ws://.0.0.0.0"],
   ["eaglercraft.brand = \"o_xer + ArchMC\"", "eaglercraft.brand = \"Ladue Client  \""],
@@ -43,7 +43,7 @@ h = h.replace(/<title>[^<]*<\/title>/, "<title>Ladue Client 26.3</title>")
   .replace("Loading Eaglercraft 26.3 runtime", "Loading Ladue Client 26.3")
   .replace("Eaglercraft could not continue", "Ladue Client could not continue")
   .replace("Eaglercraft requires landscape", "Ladue Client requires landscape")
-  .replace("worldsDB: \"worlds\",", "worldsDB: \"ladue_worlds_26_2\",\n\t\t\tservers: [{ addr: \"ladue.cc.cd\", name: \"Ladue\" }],");
+  .replace("worldsDB: \"worlds\",", "worldsDB: \"ladue_worlds_26_2\",\n\t\t\tservers: [{ addr: \"ram-craft.net\", name: \"Ram-Craft\" }],");
 
 // Wispcraft, always pointed at the Ladue relay
 let wc = fs.readFileSync(wispcraft, "utf8");
@@ -64,6 +64,6 @@ fs.writeFileSync(path.join(root, "games/v263.bin"), gz);
 const hash = crypto.createHash("sha1").update(gz).digest("hex").slice(0, 10);
 for (const f of ["index.html", "src/engine.js"]) {
   const p = path.join(root, f), s = fs.readFileSync(p, "utf8");
-  fs.writeFileSync(p, s.replace(/games\/'\+id\+'\.bin\?v=[0-9a-f]+/, "games/'+id+'.bin?v=" + hash));
+  fs.writeFileSync(p, s.replace(/v263:'[0-9a-f]+'/, "v263:'" + hash + "'"));
 }
 console.log("v263.bin", (gz.length / 1e6).toFixed(1), "MB, v=" + hash);
