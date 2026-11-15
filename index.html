@@ -1005,7 +1005,7 @@ async function drawCape(canvas,cape){
 (function(){
   const c=document.getElementById("jCopy");if(!c)return;
   c.onclick=async()=>{try{await navigator.clipboard.writeText("ram-craft.net");c.textContent="Copied!"}catch(e){c.textContent="ram-craft.net"}setTimeout(()=>c.textContent="Copy",1500)};
-  fetch("https://map.ladue.cc.cd/status").then(r=>r.json()).then(d=>{
+  fetch("https://map.ram-craft.net/status").then(r=>r.json()).then(d=>{
     document.getElementById("jStatus").innerHTML=`<span class="jdot ${d.online?"on":"off"}"></span>${d.online?"Online":"Offline"}`;
     if(d.online&&d.players)document.getElementById("jPlayers").textContent=d.players.online+"/"+d.players.max;
   }).catch(()=>{});
@@ -1043,7 +1043,7 @@ const app=$("#app");
 function openApp(page){app.classList.add("open");document.body.style.overflow="hidden";if(page)showPage(page)}
 function showPage(p){$$(".side [data-page]").forEach(b=>b.classList.toggle("on",b.dataset.page===p));$$(".page").forEach(s=>s.classList.toggle("on",s.dataset.page===p));mapFrame(p==="map");playersFrame(p==="players")}
 function playersFrame(on){const f=document.getElementById("playersFrame");if(!f)return;const want=on?"/players/":"about:blank";if(f.getAttribute("src")!==want)f.setAttribute("src",want)}
-function mapFrame(on){const f=document.getElementById("mapFrame");if(!f)return;const want=on?"https://map.ladue.cc.cd/":"about:blank";if(f.getAttribute("src")!==want)f.setAttribute("src",want)}
+function mapFrame(on){const f=document.getElementById("mapFrame");if(!f)return;const want=on?"https://map.ram-craft.net/":"about:blank";if(f.getAttribute("src")!==want)f.setAttribute("src",want)}
 $$("[data-launch]").forEach(b=>b.onclick=()=>{if(b.dataset.launch){sets.version=b.dataset.launch;save("astra.settings",sets);renderVersions()}openApp("play")});
 $$(".side [data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 $("#toSite").onclick=()=>{app.classList.remove("open");mapFrame(false);playersFrame(false);document.body.style.overflow=""};
@@ -1261,7 +1261,7 @@ function playerPage(v){
   frame.addEventListener("load",()=>{try{frame.contentWindow.focus()}catch(e){}});
   $("#plFull").onclick=()=>{(frame.requestFullscreen||frame.webkitRequestFullscreen).call(frame)};
   $("#plReload").onclick=()=>{frame.src="?play="+v.id+"&frame=1&r="+Date.now()};
-  fetch("https://map.ladue.cc.cd/status").then(r=>r.json()).then(d=>{if(d.online)$("#plInfo").textContent="Server: ram-craft.net · "+d.players.online+" online"}).catch(()=>{});
+  fetch("https://map.ram-craft.net/status").then(r=>r.json()).then(d=>{if(d.online)$("#plInfo").textContent="Server: ram-craft.net · "+d.players.online+" online"}).catch(()=>{});
   // ads: banners only (top/bottom banner, two rails each side)
   const wide=innerWidth>=800;
   $("#adTop").appendChild(adSlot(wide?"wide":"small"));
@@ -1316,7 +1316,7 @@ $("#playBtn").onclick=async()=>{
 /* ---------- launcher: Ram-Craft server card ---------- */
 (function(){
   const dot=$("#srvDot"),out=$("#srvPlayers");if(!dot)return;
-  function check(){fetch("https://map.ladue.cc.cd/status").then(r=>r.json()).then(d=>{
+  function check(){fetch("https://map.ram-craft.net/status").then(r=>r.json()).then(d=>{
     if(d.online&&d.players){dot.className="sdot on";out.textContent=d.players.online+" / "+d.players.max+" online"}
     else{dot.className="sdot off";out.textContent="Offline"}}).catch(()=>{out.textContent="Status unavailable"})}
   check();setInterval(check,60000);
