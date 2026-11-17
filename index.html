@@ -17,7 +17,7 @@
 :root{--ink:#0b1b3f;--mut:#4a5d86;--blue:#2563eb;--blue2:#1d4ed8;--glass:rgba(255,255,255,.62);--glass2:rgba(255,255,255,.8);--edge:rgba(255,255,255,.75);--sh:0 10px 40px rgba(20,60,160,.18);--tint:linear-gradient(180deg,rgba(255,255,255,.18),rgba(219,234,254,.35));--bgimg:url(src/pack/web_hero.jpg);--bgc:#7cc4ff}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;
-  background:var(--bgc) var(--bgimg) center/cover fixed}
+  background:var(--bgc) var(--bgimg) center/cover fixed;image-rendering:pixelated}
 body::before{content:"";position:fixed;inset:0;background:var(--tint);pointer-events:none}
 a{color:inherit;text-decoration:none}
 button,input,select{font:inherit;color:inherit}
@@ -118,20 +118,20 @@ button{cursor:pointer;border:0;background:none}
 
 
 /* themes */
-html[data-theme=midnight]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#60a5fa;--blue2:#3b82f6;--bgimg:none;--bgc:#050816;--tint:none;
+html[data-theme=midnight]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#60a5fa;--blue2:#3b82f6;--bgimg:url(src/themes/midnight.jpg);--bgc:#050816;--tint:linear-gradient(180deg,rgba(4,8,24,.15),rgba(4,8,24,.45));
   --blobs:radial-gradient(40vw 40vw at 15% 20%,rgba(59,130,246,.35),transparent 60%),radial-gradient(35vw 35vw at 85% 80%,rgba(99,102,241,.32),transparent 60%),radial-gradient(30vw 30vw at 70% 10%,rgba(14,165,233,.22),transparent 60%)}
-html[data-theme=aurora]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#34d399;--blue2:#10b981;--bgimg:none;--bgc:#04121a;--tint:none;
+html[data-theme=aurora]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#34d399;--blue2:#10b981;--bgimg:url(src/themes/aurora.jpg);--bgc:#04121a;--tint:linear-gradient(180deg,rgba(2,10,20,.05),rgba(2,10,20,.4));
   --blobs:radial-gradient(45vw 30vw at 20% 15%,rgba(52,211,153,.38),transparent 60%),radial-gradient(40vw 35vw at 80% 25%,rgba(168,85,247,.35),transparent 60%),radial-gradient(40vw 30vw at 50% 95%,rgba(56,189,248,.28),transparent 60%)}
-html[data-theme=ocean]{--ink:#06243a;--mut:#3f6680;--blue:#0891b2;--blue2:#0e7490;--bgimg:none;--bgc:#cdf3fb;--tint:none;
+html[data-theme=ocean]{--ink:#06243a;--mut:#3f6680;--blue:#0891b2;--blue2:#0e7490;--bgimg:url(src/themes/ocean.jpg);--bgc:#cdf3fb;--tint:linear-gradient(180deg,rgba(255,255,255,.1),rgba(205,243,251,.3));
   --blobs:radial-gradient(45vw 40vw at 10% 10%,rgba(34,211,238,.55),transparent 60%),radial-gradient(40vw 40vw at 90% 90%,rgba(59,130,246,.45),transparent 60%),radial-gradient(35vw 30vw at 80% 15%,rgba(45,212,191,.4),transparent 60%)}
-html[data-theme=blossom]{--ink:#3b0f2a;--mut:#86506d;--blue:#db2777;--blue2:#be185d;--bgimg:none;--bgc:#fde7f1;--tint:none;
+html[data-theme=blossom]{--ink:#3b0f2a;--mut:#86506d;--blue:#db2777;--blue2:#be185d;--bgimg:url(src/themes/blossom.jpg);--bgc:#fde7f1;--tint:linear-gradient(180deg,rgba(255,255,255,.1),rgba(253,231,241,.3));
   --blobs:radial-gradient(45vw 40vw at 15% 15%,rgba(244,114,182,.5),transparent 60%),radial-gradient(40vw 40vw at 85% 85%,rgba(251,191,36,.35),transparent 60%),radial-gradient(35vw 30vw at 80% 10%,rgba(192,132,252,.4),transparent 60%)}
-html[data-theme=ember]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#fb923c;--blue2:#ea580c;--bgimg:none;--bgc:#140806;--tint:none;
+html[data-theme=ember]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#fb923c;--blue2:#ea580c;--bgimg:url(src/themes/ember.jpg);--bgc:#140806;--tint:linear-gradient(180deg,rgba(20,8,6,.2),rgba(20,8,6,.5));
   --blobs:radial-gradient(45vw 35vw at 20% 85%,rgba(234,88,12,.45),transparent 60%),radial-gradient(40vw 35vw at 85% 20%,rgba(220,38,38,.35),transparent 60%),radial-gradient(30vw 30vw at 60% 50%,rgba(250,204,21,.15),transparent 60%)}
-html[data-theme=royal]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#a78bfa;--blue2:#8b5cf6;--bgimg:none;--bgc:#0c0820;--tint:none;
+html[data-theme=royal]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#a78bfa;--blue2:#8b5cf6;--bgimg:url(src/themes/royal.jpg);--bgc:#0c0820;--tint:linear-gradient(180deg,rgba(12,8,32,.1),rgba(12,8,32,.45));
   --blobs:radial-gradient(45vw 40vw at 15% 20%,rgba(139,92,246,.42),transparent 60%),radial-gradient(35vw 35vw at 85% 80%,rgba(234,179,8,.22),transparent 60%),radial-gradient(35vw 30vw at 75% 15%,rgba(79,70,229,.35),transparent 60%)}
 html[data-theme=plain]{--bgimg:none;--bgc:#eef3fb;--tint:none;--glass:rgba(255,255,255,.92);--glass2:#f4f7fd;--edge:#e1e8f5;--sh:0 4px 18px rgba(20,40,90,.08)}
-body::after{content:"";position:fixed;inset:-10%;background:var(--blobs,none);pointer-events:none;z-index:0;animation:drift 22s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:-10%;background:var(--blobs,none);pointer-events:none;z-index:0;opacity:.45;animation:drift 22s ease-in-out infinite alternate}
 @keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(2%,-3%) scale(1.05)}100%{transform:translate(-3%,2%) scale(1)}}
 .app{z-index:1}
 html[data-theme=midnight] .tabs button.on,html[data-theme=midnight] .seg button.on,html[data-theme=midnight] .anims button.on,html[data-theme=midnight] .cats button.on,html[data-theme=midnight] .vers button.on,
@@ -395,12 +395,12 @@ const NEWS=[
 ];
 const THEMES=[
   ["sky","Sky Glass","Glass over the blue sky",{bg:"url(src/pack/web_hero.jpg)",g:"rgba(255,255,255,.6)",a:"#2563eb"}],
-  ["midnight","Midnight","Deep navy with soft blue glow",{bg:"radial-gradient(circle at 20% 20%,#1e3a8a,#050816 70%)",g:"rgba(255,255,255,.1)",a:"#60a5fa"}],
-  ["aurora","Aurora","Northern lights, green and violet",{bg:"radial-gradient(circle at 20% 15%,#047857,transparent 55%),radial-gradient(circle at 80% 25%,#6d28d9,#04121a 70%)",g:"rgba(255,255,255,.1)",a:"#34d399"}],
-  ["ocean","Ocean","Bright tropical water",{bg:"radial-gradient(circle at 15% 15%,#22d3ee,transparent 55%),radial-gradient(circle at 85% 85%,#3b82f6,#cdf3fb 70%)",g:"rgba(255,255,255,.6)",a:"#0891b2"}],
-  ["blossom","Blossom","Pink petals and warm light",{bg:"radial-gradient(circle at 15% 15%,#f472b6,transparent 55%),radial-gradient(circle at 85% 85%,#fbbf24,#fde7f1 70%)",g:"rgba(255,255,255,.6)",a:"#db2777"}],
-  ["ember","Ember","Glowing lava in the dark",{bg:"radial-gradient(circle at 20% 85%,#ea580c,transparent 55%),radial-gradient(circle at 85% 20%,#b91c1c,#140806 70%)",g:"rgba(255,255,255,.1)",a:"#fb923c"}],
-  ["royal","Royal","Violet and gold",{bg:"radial-gradient(circle at 15% 20%,#7c3aed,transparent 55%),radial-gradient(circle at 85% 80%,#a16207,#0c0820 70%)",g:"rgba(255,255,255,.1)",a:"#a78bfa"}],
+  ["midnight","Midnight","Deep navy with soft blue glow",{bg:"url(src/themes/midnight-thumb.jpg)",g:"rgba(255,255,255,.1)",a:"#60a5fa"}],
+  ["aurora","Aurora","Northern lights, green and violet",{bg:"url(src/themes/aurora-thumb.jpg)",g:"rgba(255,255,255,.1)",a:"#34d399"}],
+  ["ocean","Ocean","Bright tropical water",{bg:"url(src/themes/ocean-thumb.jpg)",g:"rgba(255,255,255,.6)",a:"#0891b2"}],
+  ["blossom","Blossom","Pink petals and warm light",{bg:"url(src/themes/blossom-thumb.jpg)",g:"rgba(255,255,255,.6)",a:"#db2777"}],
+  ["ember","Ember","Glowing lava in the dark",{bg:"url(src/themes/ember-thumb.jpg)",g:"rgba(255,255,255,.1)",a:"#fb923c"}],
+  ["royal","Royal","Violet and gold",{bg:"url(src/themes/royal-thumb.jpg)",g:"rgba(255,255,255,.1)",a:"#a78bfa"}],
   ["plain","Clean","Simple and bright, no effects",{bg:"linear-gradient(135deg,#eef3fb,#fff)",g:"rgba(255,255,255,.95)",a:"#2563eb"}]
 ];
 
