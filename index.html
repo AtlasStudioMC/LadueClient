@@ -7,99 +7,183 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ram Client</title>
 <meta name="description" content="Ram Client: play Minecraft in your browser and join the Ram-Craft server.">
+<meta name="theme-color" content="#081028">
 <link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--blue:#2563eb;--blue2:#1d4ed8;--ink:#0f1b3d;--mut:#51607f;--bg:#f4f8ff;--card:#fff;--line:#dbe6fb}
-*{box-sizing:border-box;margin:0}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-a{color:var(--blue)}
-.wrap{max-width:980px;margin:0 auto;padding:0 20px}
-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-header .wrap{display:flex;align-items:center;gap:18px;height:62px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.15rem;color:var(--ink);text-decoration:none}
-.brand img{width:34px;height:34px}
-nav{margin-left:auto;display:flex;gap:18px}
-nav a{color:var(--mut);text-decoration:none;font-weight:600}
-nav a:hover{color:var(--blue)}
-.hero{text-align:center;padding:64px 0 48px;background:linear-gradient(#e8f0ff,var(--bg))}
-.hero img{width:140px;height:140px;filter:drop-shadow(0 12px 24px rgba(37,99,235,.3))}
-.hero h1{font-size:clamp(2.4rem,7vw,4rem);letter-spacing:-.03em;margin:10px 0 6px}
-.hero p{color:var(--mut);max-width:560px;margin:0 auto 26px;font-size:1.1rem}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;padding:13px 26px;border-radius:12px;font-weight:800;text-decoration:none;border:2px solid var(--blue);color:var(--blue);background:#fff}
-.btn.primary{background:var(--blue);color:#fff;box-shadow:0 8px 22px rgba(37,99,235,.35)}
-.btn:hover{transform:translateY(-1px)}
-section{padding:42px 0}
-h2{font-size:1.7rem;margin-bottom:16px;letter-spacing:-.02em}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
-.card h3{margin-bottom:6px}
-.card p{color:var(--mut)}
-code.addr{display:block;margin-top:10px;background:#eef3ff;border-radius:8px;padding:8px 12px;font-weight:700;color:var(--blue2)}
-ol.rules{padding-left:22px;display:grid;gap:8px}
-.ad{display:flex;justify-content:center;padding:10px 0}
+:root{--bg:#060c1f;--bg2:#0a1430;--card:rgba(255,255,255,.05);--line:rgba(148,178,255,.16);--ink:#eef3ff;--mut:#9aaad0;--blue:#3b82f6;--blue2:#60a5fa;--glow:rgba(59,130,246,.45)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:20;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+header.solid{background:rgba(6,12,31,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+header .wrap{display:flex;align-items:center;height:68px;gap:28px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;letter-spacing:-.01em}
+.brand img{width:34px;height:34px;filter:drop-shadow(0 4px 12px var(--glow))}
+nav{margin-left:auto;display:flex;align-items:center;gap:26px;font-weight:600;font-size:.95rem;color:#cbd6f5}
+nav a:hover{color:#fff}
+nav .cta{background:var(--blue);color:#fff;padding:9px 18px;border-radius:10px;box-shadow:0 6px 20px var(--glow)}
+nav .cta:hover{background:#2f74e8}
+
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;
+  background:url(src/pack/web_hero.jpg) center/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(6,12,31,.92) 0%,rgba(6,12,31,.7) 45%,rgba(6,12,31,.15) 100%),
+  linear-gradient(0deg,var(--bg) 0%,transparent 30%)}
+.hero .wrap{position:relative;width:100%;padding-top:68px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-size:.85rem;font-weight:600;color:#d6e2ff;backdrop-filter:blur(8px)}
+.dot{width:8px;height:8px;border-radius:50%;background:#64748b}
+.dot.on{background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.2)}
+.dot.off{background:#ef4444}
+.hero h1{font-size:clamp(3rem,8vw,5.6rem);font-weight:900;letter-spacing:-.045em;line-height:1;margin:22px 0 18px}
+.hero h1 span{background:linear-gradient(90deg,#60a5fa,#3b82f6 60%,#93c5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:clamp(1.05rem,2vw,1.25rem);color:#c3cfee;max-width:520px;margin-bottom:34px}
+.btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:14px;font-weight:700;font-size:1rem;transition:transform .15s,box-shadow .15s,background .15s;border:1px solid var(--line);background:rgba(255,255,255,.07);backdrop-filter:blur(8px)}
+.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+.btn.primary{background:linear-gradient(180deg,#4a8df8,#2563eb);border-color:#5b9bff;box-shadow:0 10px 30px var(--glow),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.primary:hover{box-shadow:0 14px 38px rgba(59,130,246,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn svg{width:18px;height:18px}
+.btn small{font-weight:600;opacity:.75;font-size:.8rem}
+.addr-row{margin-top:30px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--mut);font-size:.92rem}
+.copy{display:inline-flex;align-items:center;gap:8px;font:700 .95rem Inter,system-ui;color:#fff;background:rgba(255,255,255,.06);border:1px dashed rgba(148,178,255,.35);padding:8px 14px;border-radius:10px;cursor:pointer}
+.copy:hover{border-color:var(--blue2)}
+
+/* sections */
+section{padding:96px 0;position:relative}
+.eyebrow{color:var(--blue2);font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase}
+h2{font-size:clamp(2rem,4vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:10px 0 14px}
+.sub{color:var(--mut);max-width:560px;font-size:1.05rem}
+.grid{display:grid;gap:18px;margin-top:44px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:20px;padding:28px;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-4px);border-color:rgba(96,165,250,.45)}
+.ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.3);margin-bottom:18px}
+.ic svg{width:22px;height:22px;stroke:#93c5fd}
+.card h3{font-size:1.2rem;font-weight:700;margin-bottom:6px}
+.card p{color:var(--mut);font-size:.96rem}
+.card .copy{margin-top:16px}
+
+.features{background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
+.feat .card{padding:24px}
+.feat h3{font-size:1.05rem}
+
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:44px}
+.rule{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.rule b{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--blue);font-weight:800;box-shadow:0 6px 16px var(--glow)}
+.rule p{color:#d3dcf5}
+
+.cta-band{margin:0 24px;border-radius:28px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 20% 0%,rgba(96,165,250,.35),transparent 50%),linear-gradient(135deg,#1e3a8a,#2563eb)}
+.cta-band h2{margin-top:0}
+.cta-band p{color:#dbe7ff;margin:0 auto 28px;max-width:480px}
+.cta-band .btns{justify-content:center}
+.cta-band .btn.primary{background:#fff;color:#1d4ed8;border-color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+
+.ad{display:flex;justify-content:center;padding:28px 0 0}
 .ad iframe{border:0;width:728px;max-width:100%;height:90px}
-footer{border-top:1px solid var(--line);padding:26px 0;color:var(--mut);text-align:center;font-size:.92rem}
-body.player{background:#0b1226;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.bar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:#0f1b3d;color:#fff;flex-wrap:wrap}
-.bar .brand{color:#fff;font-size:1rem}
+footer{padding:48px 0;color:var(--mut);font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:32px}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:900px){.g3,.feat{grid-template-columns:1fr 1fr}.rules{grid-template-columns:1fr}nav a:not(.cta){display:none}}
+@media (max-width:600px){.g3,.feat{grid-template-columns:1fr}section{padding:70px 0}.cta-band{margin:0 16px;padding:48px 22px}.wrap{padding:0 16px}}
+
+/* play page */
+body.player{height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#000}
+.bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(6,12,31,.96);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.bar .brand{font-size:.95rem;margin-right:8px}
+.bar .brand img{width:26px;height:26px}
 .bar .sp{flex:1}
-.bar a,.bar button{font:700 .85rem system-ui;color:#fff;background:#1d4ed8;border:0;border-radius:8px;padding:7px 12px;text-decoration:none;cursor:pointer}
-.bar a.brand{background:none;padding:0;font-size:1rem}
-.bar a.on{background:#fff;color:var(--blue2)}
-.bar a.red{background:#dc2626}
+.bar a.v,.bar button{font:600 .85rem Inter,system-ui;color:#cbd6f5;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:9px;padding:7px 13px;cursor:pointer}
+.bar a.v.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.bar button:hover,.bar a.v:hover{color:#fff;border-color:var(--blue2)}
+.bar a.exit{font:600 .85rem Inter,system-ui;color:#fff;background:#dc2626;border-radius:9px;padding:7px 13px}
 #game{flex:1;border:0;width:100%;min-height:0;background:#000}
-body.player .ad{background:#0f1b3d;padding:4px 0}
-#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0b1226;color:#fff;z-index:9}
+body.player .ad{padding:4px 0;background:var(--bg)}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9;
+  background:radial-gradient(circle at 50% 40%,#12245a,#060c1f 70%)}
 .boot-in{text-align:center;width:min(340px,80vw)}
-.boot-in img{width:96px;height:96px}
-.boot-name{font-weight:900;font-size:1.6rem;letter-spacing:.08em;margin-top:8px}
-.boot-ver{color:#8fb0ff;margin-bottom:14px}
-.boot-bar{height:8px;background:#1b2a55;border-radius:99px;overflow:hidden}
-.boot-bar i{display:block;height:100%;width:0;background:#3b82f6;transition:width .2s}
-.boot-msg{margin-top:10px;color:#a9b8de;font-size:.9rem}
+.boot-in img{width:92px;height:92px;filter:drop-shadow(0 10px 30px var(--glow));animation:float 2.4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.boot-name{font-weight:900;font-size:1.7rem;letter-spacing:-.02em;margin-top:14px}
+.boot-ver{color:var(--blue2);font-weight:600;margin-bottom:22px}
+.boot-bar{height:6px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.boot-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#93c5fd);transition:width .2s}
+.boot-msg{margin-top:12px;color:var(--mut);font-size:.88rem}
 </style>
 </head>
 <body>
 <div id="site">
-<header><div class="wrap">
+<header id="hdr"><div class="wrap">
   <a class="brand" href="./"><img src="logo.png" alt="">Ram Client</a>
-  <nav><a href="#join">Join</a><a href="#rules">Rules</a></nav>
+  <nav><a href="#join">Join</a><a href="#features">Features</a><a href="#rules">Rules</a><a class="cta" href="?play=v263">Play now</a></nav>
 </div></header>
 
 <div class="hero"><div class="wrap">
-  <img src="logo.png" alt="Ram Client logo">
-  <h1>Ram Client</h1>
-  <p>Play Minecraft right in your browser and join the Ram-Craft server. No download needed.</p>
+  <span class="pill"><span class="dot" id="sDot"></span><span id="sTxt">Checking server...</span></span>
+  <h1>Play <span>Ram-Craft</span><br>in your browser.</h1>
+  <p class="lead">Ram Client runs Minecraft right in a browser tab. No download, no install. Press play and you are on the server in seconds.</p>
   <div class="btns">
-    <a class="btn primary" href="?play=v263">Play 26.3</a>
-    <a class="btn" href="?play=v262">Play 26.2</a>
+    <a class="btn primary" href="?play=v263"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play 26.3 <small>Newest</small></a>
+    <a class="btn" href="?play=v262"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play 26.2</a>
   </div>
+  <div class="addr-row">Using Java or Bedrock? <button class="copy" data-copy="ram-craft.net">ram-craft.net <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
 </div></div>
 
-<div class="wrap"><div class="ad"><iframe src="ad.html?s=wide" title="Advertisement" loading="lazy"></iframe></div></div>
-
 <section id="join"><div class="wrap">
-  <h2>How to join</h2>
-  <div class="cards">
-    <div class="card"><h3>In your browser</h3><p>Press Play above. The Ram-Craft server is already in the Multiplayer list.</p></div>
-    <div class="card"><h3>Java Edition</h3><p>Add a server with this address. Versions 26.2 and 26.3 can join.</p><code class="addr">ram-craft.net</code></div>
-    <div class="card"><h3>Bedrock</h3><p>Phones, tablets, Xbox and Switch. Add a server with this address and port.</p><code class="addr">ram-craft.net · port 18478</code></div>
+  <div class="reveal"><span class="eyebrow">How to join</span><h2>Pick how you play.</h2><p class="sub">Every way gets you onto the same world with the same people.</p></div>
+  <div class="grid g3">
+    <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></div>
+      <h3>Browser</h3><p>Hit Play. Ram-Craft is already saved in your Multiplayer list. Works on Chromebooks.</p>
+      <a class="copy" href="?play=v263">Play now →</a></div>
+    <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></div>
+      <h3>Java Edition</h3><p>Multiplayer → Add Server. Versions 26.2 and 26.3 can join.</p>
+      <button class="copy" data-copy="ram-craft.net">ram-craft.net</button></div>
+    <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+      <h3>Bedrock</h3><p>Phones, tablets, Xbox and Switch. Add a server with this address and port.</p>
+      <button class="copy" data-copy="ram-craft.net">ram-craft.net · 18478</button></div>
   </div>
-  <p style="margin-top:14px;color:var(--mut)">First time? You will make a password, pick your grade and type your first name.</p>
+</div></section>
+
+<section class="features" id="features"><div class="wrap">
+  <div class="reveal"><span class="eyebrow">On the server</span><h2>Built for playing with friends.</h2><p class="sub">Open the Ram Settings button in the pause menu to switch these on.</p></div>
+  <div class="feat">
+    <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 4l6 6-9 9H5v-6z"/></svg></div><h3>Vein Miner</h3><p>Break one ore, mine the whole vein.</p></div>
+    <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l5 8h-3l4 6h-4v6h-4v-6H6l4-6H7z"/></svg></div><h3>Tree Feller</h3><p>Chop the base, the whole tree falls.</p></div>
+    <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></div><h3>Night Vision</h3><p>See in caves and at night, free.</p></div>
+    <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 11l9-8 9 8v10H3z"/><path d="M9 21v-6h6v6"/></svg></div><h3>Homes & /back</h3><p>Save your base and teleport back.</p></div>
+  </div>
 </div></section>
 
 <section id="rules"><div class="wrap">
-  <h2>Rules</h2>
-  <ol class="rules">
-    <li>PvP is on. Fight fair: no killing new players or spawn-camping.</li>
-    <li>No griefing. Don't break, take or change other people's builds or items.</li>
-    <li>Be kind. No bullying, spam or inappropriate chat.</li>
-    <li>No hacks, x-ray or cheat clients.</li>
-  </ol>
+  <div class="reveal"><span class="eyebrow">Rules</span><h2>Keep it fun for everyone.</h2></div>
+  <div class="rules">
+    <div class="rule reveal"><b>1</b><p>PvP is on. Fight fair: no killing new players or spawn-camping.</p></div>
+    <div class="rule reveal"><b>2</b><p>No griefing. Don't break, take or change other people's builds or items.</p></div>
+    <div class="rule reveal"><b>3</b><p>Be kind. No bullying, spam or inappropriate chat.</p></div>
+    <div class="rule reveal"><b>4</b><p>No hacks, x-ray or cheat clients.</p></div>
+  </div>
+  <div class="ad"><iframe src="ad.html?s=wide" title="Advertisement" loading="lazy"></iframe></div>
 </div></section>
 
-<footer><div class="wrap">Ram Client · ram-craft.net</div></footer>
+<div class="cta-band reveal">
+  <h2>Ready to play?</h2>
+  <p>One click and you are in. Your first join asks for a password, your grade and your first name.</p>
+  <div class="btns"><a class="btn primary" href="?play=v263">Play Ram-Craft</a></div>
+</div>
+
+<footer><div class="wrap"><a class="brand" href="./"><img src="logo.png" alt="">Ram Client</a><span>ram-craft.net · Not affiliated with Mojang or Microsoft.</span></div></footer>
 </div>
 
 <script>
@@ -214,7 +298,6 @@ async function launch(v,say){
   try{await installLaduePack()}catch(e){console.warn("pack install failed",e)}
   say("Loading "+v.name+"...");
   const html=await unpack(v.id,p=>say("Downloading "+v.name+"... "+p+"%"));
-  // replace the page with the game so it runs top-level
   document.open();document.write(html);document.close();
 }
 {
@@ -222,9 +305,9 @@ async function launch(v,say){
   if(v&&!qs.get("frame")){
     document.title="Ram Client "+v.name;
     document.body.className="player";
-    const links=VERSIONS.map(x=>'<a href="?play='+x.id+'" class="'+(x.id===v.id?"on":"")+'">'+x.name+'</a>').join("");
-    document.body.innerHTML='<div class="bar"><a class="brand" href="./"><img src="logo.png" alt="">RAM CLIENT</a>'+links+
-      '<span class="sp"></span><button id="plFull">Fullscreen</button><button id="plReload">Reload</button><a class="red" href="./">Exit</a></div>'+
+    const links=VERSIONS.map(x=>'<a href="?play='+x.id+'" class="v'+(x.id===v.id?" on":"")+'">'+x.name+'</a>').join("");
+    document.body.innerHTML='<div class="bar"><a class="brand" href="./"><img src="logo.png" alt="">Ram Client</a>'+links+
+      '<span class="sp"></span><button id="plFull">Fullscreen</button><button id="plReload">Reload</button><a class="exit" href="./">Exit</a></div>'+
       '<iframe id="game" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" allowfullscreen></iframe>'+
       '<div class="ad"><iframe src="ad.html?s=wide" title="Advertisement"></iframe></div>';
     const f=$("#game");f.src="?play="+v.id+"&frame=1";
@@ -232,10 +315,20 @@ async function launch(v,say){
     $("#plFull").onclick=()=>{(f.requestFullscreen||f.webkitRequestFullscreen).call(f)};
   }else if(v){
     const boot=document.createElement("div");boot.id="boot";
-    boot.innerHTML='<div class="boot-in"><img src="logo.png" alt=""><div class="boot-name">RAM CLIENT</div><div class="boot-ver">'+v.name+'</div><div class="boot-bar"><i></i></div><div class="boot-msg">Preparing...</div></div>';
+    boot.innerHTML='<div class="boot-in"><img src="logo.png" alt=""><div class="boot-name">Ram Client</div><div class="boot-ver">'+v.name+'</div><div class="boot-bar"><i></i></div><div class="boot-msg">Preparing...</div></div>';
     document.body.appendChild(boot);
     const msg=boot.querySelector(".boot-msg"),bar=boot.querySelector(".boot-bar i");
     launch(v,t=>{msg.textContent=t;const p=/(\d+)%/.exec(t);if(p)bar.style.width=p[1]+"%"}).catch(e=>{msg.textContent="Failed to launch: "+e});
+  }else{
+    // landing page
+    const h=$("#hdr"),onScroll=()=>h.classList.toggle("solid",scrollY>20);onScroll();addEventListener("scroll",onScroll,{passive:true});
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+    document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+    document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>{
+      const t=b.innerHTML;navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy);b.textContent="Copied!";setTimeout(()=>b.innerHTML=t,1400)});
+    fetch("https://api.mcsrvstat.us/3/ram-craft.net").then(r=>r.json()).then(d=>{
+      $("#sDot").className="dot "+(d.online?"on":"off");$("#sTxt").textContent=d.online?"Server online · ram-craft.net":"Server offline right now";
+    }).catch(()=>{$("#sTxt").textContent="ram-craft.net"});
   }
 }
 </script>
