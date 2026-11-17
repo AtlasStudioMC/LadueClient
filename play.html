@@ -1573,6 +1573,17 @@ function playerPage(v){
   `;
   document.head.appendChild(st);
   document.body.classList.add("player");
+  // use the background and accent of the theme picked in the launcher
+  try{
+    const t=JSON.parse(localStorage.getItem("ram.theme")||'"sky"');
+    const T={sky:["src/pack/web_hero.jpg","#2563eb"],midnight:["src/themes/midnight.jpg","#3b82f6"],aurora:["src/themes/aurora.jpg","#10b981"],
+      ocean:["src/themes/ocean.jpg","#0891b2"],blossom:["src/themes/blossom.jpg","#db2777"],ember:["src/themes/ember.jpg","#ea580c"],
+      royal:["src/themes/royal.jpg","#8b5cf6"],plain:[null,"#2563eb"]}[t]||["src/pack/web_hero.jpg","#2563eb"];
+    const ts=document.createElement("style");
+    ts.textContent=(T[0]?`body.player{background:#0b1226 url(${T[0]}) center/cover fixed}`:`body.player{background:#eef3fb}`)+
+      `.pl-btn.gold,.pl-vers a.on{background:${T[1]}!important;color:#fff!important;border-color:${T[1]}!important}.pl-card code,.pl-btn:hover{color:${T[1]}}`;
+    document.head.appendChild(ts);
+  }catch(e){}
   const others=VERSIONS.map(x=>`<a href="?play=${x.id}" class="${x.id===v.id?"on":""}">${x.name}</a>`).join("");
   const wrap=document.createElement("div");
   wrap.innerHTML=`
