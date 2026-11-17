@@ -212,6 +212,72 @@ html.noanim *{transition:none!important;animation:none!important}
 .rlogo{display:inline-block;width:100%;height:100%;background:var(--blue);-webkit-mask:url(logo.png) center/contain no-repeat;mask:url(logo.png) center/contain no-repeat}
 .side .logo .rlogo{width:34px;height:34px;filter:drop-shadow(0 4px 10px color-mix(in srgb,var(--blue) 50%,transparent))}
 .rbox{width:46px;height:46px;flex:none;border-radius:12px;padding:7px;background:color-mix(in srgb,var(--blue) 14%,transparent);display:grid}
+[hidden]{display:none!important}
+/* top bar */
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.topbar .ptl{font-size:1.35rem;font-weight:800;min-width:90px}
+.tsearch{flex:1;min-width:200px;max-width:520px;display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:999px;cursor:pointer;color:var(--mut);font-size:.92rem}
+.tsearch kbd{margin-left:auto;font:600 .72rem Inter;border:1px solid var(--edge);padding:2px 7px;border-radius:6px}
+.tchips{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+.tchip{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;font-weight:600;font-size:.88rem;white-space:nowrap}
+/* home grid */
+.hgrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;align-items:start}
+.setup{padding:18px 22px}
+.setup-h{display:flex;justify-content:space-between;align-items:flex-start}
+.setup-h b{display:block}
+.lnk2{color:var(--mut);font-weight:600;font-size:.85rem}
+.lnk2:hover{color:var(--blue)}
+.bar{height:6px;border-radius:99px;background:rgba(127,140,170,.2);overflow:hidden;margin:12px 0}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--blue),color-mix(in srgb,var(--blue) 50%,#fff));transition:width .4s}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.step{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;background:var(--glass2);border:1px solid var(--edge);font-weight:600;font-size:.86rem;text-align:left}
+.step i{width:20px;height:20px;border-radius:50%;border:2px solid var(--mut);flex:none;display:grid;place-items:center;font-style:normal;font-size:.7rem;color:#fff}
+.step.done i{background:#22c55e;border-color:#22c55e}
+.step.done i::before{content:"✓"}
+.hero{min-height:290px;padding:30px 34px}
+.kicker{align-self:flex-start;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--glass2);border:1px solid var(--edge);padding:6px 12px;border-radius:999px}
+.herorow{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:14px}
+.heroL h1{max-width:none;margin:0 0 14px}
+.addmods{margin-top:12px}
+.heroR{display:flex;flex-direction:column;align-items:flex-end;gap:10px;position:relative;z-index:2}
+.split{display:flex;border-radius:999px;box-shadow:0 12px 30px color-mix(in srgb,var(--blue) 40%,transparent)}
+.split .play{border-radius:999px 0 0 999px;box-shadow:none;padding:16px 34px}
+.pick{display:flex;align-items:center;border-radius:0 999px 999px 0;background:var(--blue2);border-left:1px solid rgba(255,255,255,.25)}
+.pick select{appearance:none;-webkit-appearance:none;background:transparent;border:0;color:#fff;font-weight:700;font-size:.9rem;padding:0 34px 0 18px;height:100%;cursor:pointer;outline:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.pick select option{color:#0b1b3f}
+.joinbig{padding:11px 20px}
+.hero .char{right:auto;left:auto;top:auto;transform:none;position:absolute;right:30%;bottom:16px;opacity:.9}
+.hero .char canvas{width:90px;height:144px}
+.sechead{display:flex;justify-content:space-between;align-items:center;margin:6px 4px -4px}
+.sechead h3{font-size:1.05rem;font-weight:800}
+.ncards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ncard{padding:18px;border-radius:20px;position:relative;overflow:hidden}
+.ncard::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--blue),color-mix(in srgb,var(--blue) 40%,#fff))}
+.ncard time{font-size:.76rem;color:var(--mut);font-weight:600}
+.ncard b{display:block;margin:6px 0 6px;font-size:.98rem}
+.ncard p{font-size:.85rem;color:var(--mut);line-height:1.5}
+.icards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.icard{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;text-align:left}
+.icard.on{outline:2px solid var(--blue)}
+.icard .rbox{width:42px;height:42px}
+.icard b{display:block;font-size:.95rem}
+.streak h2{display:flex;justify-content:space-between}
+.stnow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.stnow .flame{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--glass2);border:1px solid var(--edge);font-size:1.3rem}
+.stnow b{font-size:2.2rem;font-weight:900;line-height:1}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;margin-bottom:12px}
+.week span{font-size:.7rem;color:var(--mut);font-weight:700}
+.week i{display:block;height:30px;border-radius:9px;background:var(--glass2);border:1px solid var(--edge);margin-top:4px;font-style:normal;line-height:28px;font-size:.85rem}
+.week i.on{background:color-mix(in srgb,var(--blue) 25%,transparent);border-color:var(--blue)}
+.week i.today{outline:2px solid var(--blue)}
+.strow{display:flex;justify-content:space-between;margin:4px 0}
+.badges{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.badges span{text-align:center;padding:6px 0;border-radius:9px;background:var(--glass2);border:1px solid var(--edge);font-size:.78rem;font-weight:700;color:var(--mut)}
+.badges span.got{background:var(--blue);color:#fff;border-color:var(--blue)}
+@media (max-width:1200px){.hgrid{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.ncards{grid-template-columns:1fr 1fr}.hero .char{display:none}}
+@media (max-width:700px){.ncards,.steps{grid-template-columns:1fr}.tchips{display:none}.heroR{align-items:stretch;width:100%}}
+
 /* icon rail sidebar */
 .app{grid-template-columns:72px 1fr}
 .side{z-index:30;width:72px;padding:14px 10px;align-items:center;gap:6px;border-radius:24px;overflow:visible}
@@ -273,31 +339,70 @@ html.noanim *{transition:none!important;animation:none!important}
   </aside>
 
   <main>
+    <div class="topbar">
+      <span class="ptl" id="tTitle">Home</span>
+      <div class="tsearch glass" id="tSearch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Search instances, mods, capes, themes<kbd>Ctrl K</kbd></div>
+      <div class="tchips">
+        <span class="tchip glass">&#128293; <span id="tStreak">0 day streak</span></span>
+        <a class="tchip glass" href="https://www.ram-craft.net/download/index.html" download="index.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Download</a>
+      </div>
+    </div>
     <!-- HOME -->
     <section class="page" data-page="home">
-      <div class="hero glass">
-        <div class="chips"><span class="chip"><span class="dot" id="sDot"></span><span id="sTxt">Checking server</span></span><span class="chip" id="chipVer">26.3</span></div>
-        <h1 id="instName">My instance</h1>
-        <div class="playrow">
-          <a class="play" id="playBtn" href="?play=v263"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play <small id="playVer">26.3</small></a>
-          <button class="round" title="Edit instances" data-go="instances">⋯</button>
-        </div>
-        <div class="instq" id="instQuick"></div>
-        <div class="char"><canvas id="charCv" width="16" height="32"></canvas><br><span class="chip" data-go="wardrobe">Change cape</span></div>
-      </div>
-      <div class="cols">
+      <div class="hgrid">
         <div class="stack">
-          <div class="panel glass"><h2>Servers <a class="lnk" href="#servers">All servers</a></h2>
+          <div class="panel glass setup" id="setup">
+            <div class="setup-h"><div><b>Get set up</b><span class="s" id="setupCount">0 of 4 done</span></div><button class="lnk2" id="setupHide">Hide</button></div>
+            <div class="bar"><i id="setupBar"></i></div>
+            <div class="steps" id="setupSteps"></div>
+          </div>
+
+          <div class="hero glass">
+            <span class="kicker">Continue playing</span>
+            <div class="herorow">
+              <div class="heroL">
+                <h1 id="instName">My instance</h1>
+                <div class="chips"><span class="chip" id="chipVer">26.3</span><span class="chip" id="chipMods">0 mods on</span><span class="chip" id="chipLast">Not played yet</span></div>
+                <button class="lnk2 addmods" data-go="mods">⚙ Mods</button>
+              </div>
+              <div class="heroR">
+                <div class="split">
+                  <a class="play" id="playBtn" href="?play=v263"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play <small id="playVer">26.3</small></a>
+                  <label class="pick"><select id="instPick" aria-label="Instance"></select></label>
+                </div>
+                <a class="btn ghost joinbig playLink" href="?play=v263"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg>Join Ram-Craft</a>
+              </div>
+            </div>
+            <div class="instq" id="instQuick" hidden></div>
+            <div class="char"><canvas id="charCv" width="16" height="32"></canvas></div>
+          </div>
+
+          <div class="sechead"><h3>News</h3><a class="lnk2" href="#news">All news</a></div>
+          <div class="ncards" id="newsShort"></div>
+
+          <div class="sechead"><h3>Instances</h3><div><button class="lnk2" data-go="instances">+ New</button> <button class="lnk2" data-go="instances">Manage</button></div></div>
+          <div class="icards" id="instCards"></div>
+
+          <div class="panel glass seo"><h2>About Ram Client</h2>
+            <p class="s">Ram Client is a free <b>Eaglercraft client</b> that runs Minecraft 26.3 and 26.2 right in your browser. There's nothing to download, so it works on school Chromebooks and any computer with Chrome or Edge. It comes with 20 built-in mods (FPS, keystrokes, zoom, CPS and more), free capes, a 3D skin wardrobe, instances and themes, and the Ram-Craft server is already in your Multiplayer list.</p>
+            <p class="s" style="margin-top:8px">Looking for an Eaglercraft client with newer versions? Press Play to start Eaglercraft 26.3, or switch to 26.2 in Versions.</p>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="panel glass streak">
+            <h2>Streak <span class="s" id="stBest">Best: 0 days</span></h2>
+            <div class="stnow"><span class="flame">🔥</span><b id="stNum">0</b><span class="s">days</span></div>
+            <div class="week" id="stWeek"></div>
+            <div class="strow"><span class="s" id="stToday">Play today to start a streak</span></div>
+            <div class="strow"><span class="s">Next badge</span><span class="s" id="stNext">3 days</span></div>
+            <div class="bar"><i id="stBar"></i></div>
+            <div class="badges" id="stBadges"></div>
+          </div>
+          <div class="panel glass"><h2>Server</h2>
             <div class="row"><span class="rbox"><i class="rlogo"></i></span><div class="t"><b>Ram-Craft</b><span class="s srvLine">ram-craft.net</span></div><a class="btn playLink" href="?play=v263">Join</a></div>
           </div>
-          <div class="panel glass news"><h2>News <a class="lnk" href="#news">All news</a></h2><div id="newsShort"></div></div>
-      <div class="panel glass seo"><h2>About Ram Client</h2>
-        <p class="s">Ram Client is a free <b>Eaglercraft client</b> that runs Minecraft 26.3 and 26.2 right in your browser. There's nothing to download, so it works on school Chromebooks and any computer with Chrome or Edge. It comes with 20 built-in mods (FPS, keystrokes, zoom, CPS and more), free capes, a 3D skin wardrobe, instances and themes, and the Ram-Craft server is already in your Multiplayer list.</p>
-        <p class="s" style="margin-top:8px">Looking for an Eaglercraft client with newer versions? Press Play to start Eaglercraft 26.3, or switch to 26.2 in Versions.</p>
-      </div>
-        </div>
-        <div class="stack">
-          <div class="panel glass"><h2>Playing now</h2><div class="big" id="plCount">–</div><p class="s">On Ram-Craft right now</p></div>
+          <div class="panel glass"><h2>Playing now</h2><div class="big" id="plCount">–</div><p class="s"><span class="dot" id="sDot" style="display:inline-block;margin-right:6px"></span><span id="sTxt">Checking server</span></p></div>
           <div class="panel glass"><h2>First time?</h2><p class="s">When you first join you make a password, pick your grade and type your first name. Next time just log in.</p></div>
           <div class="glass adbox"><iframe src="ad.html?s=rect" title="Advertisement" loading="lazy"></iframe></div>
         </div>
@@ -468,6 +573,7 @@ function go(p){
   $$(".nav").forEach(b=>b.classList.toggle("on",b.dataset.go===p));
   if(location.hash.slice(1)!==p)history.replaceState(null,"","#"+p);
   if(p==="wardrobe")initViewer();
+  const tt=document.getElementById("tTitle");if(tt&&typeof PAGE_NAMES!=="undefined")tt.textContent=PAGE_NAMES[p]||"Home";
   scrollTo(0,0);
 }
 document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.dataset.go)}});
@@ -705,8 +811,68 @@ $("#resetLauncher").onclick=()=>{if(!confirm("Reset instances, theme, skin, cape
   ["ram.instances","ram.current","ram.theme","ram.skin","ram.skinModel","ram.anim","ram.anim.on","ram.defaultVer","astra.cosmetics"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});location.reload()};
 $("#resetMods").onclick=()=>{if(confirm("Turn every mod back to its default?"))resetMods()};
 
+/* ---------- home: setup checklist, streak, news cards, instance cards ---------- */
+const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function recordPlay(){
+  const days=new Set(ld("ram.playDays",[]));days.add(dayKey(new Date()));
+  sv("ram.playDays",[...days].slice(-400));
+  const it=insts[cur];if(it){it.last=Date.now();saveInsts()}
+}
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="?play="]');if(a)recordPlay()},true);
+function streakInfo(){
+  const days=new Set(ld("ram.playDays",[])),d=new Date();
+  let n=0;const t=new Date(d);
+  if(!days.has(dayKey(t)))t.setDate(t.getDate()-1);           // a streak stays alive until the end of today
+  while(days.has(dayKey(t))){n++;t.setDate(t.getDate()-1)}
+  const best=Math.max(n,ld("ram.bestStreak",0));sv("ram.bestStreak",best);
+  return {days,n,best,today:days.has(dayKey(d))};
+}
+function renderStreak(){
+  const {days,n,best,today}=streakInfo();
+  $("#stNum").textContent=n;$("#stBest").textContent="Best: "+best+(best===1?" day":" days");
+  const d=new Date(),dow=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-dow);
+  $("#stWeek").innerHTML=["M","T","W","T","F","S","S"].map((l,i)=>{const x=new Date(mon);x.setDate(mon.getDate()+i);
+    const on=days.has(dayKey(x));return `<div><span>${l}</span><i class="${on?"on":""}${i===dow?" today":""}">${on?"🔥":""}</i></div>`}).join("");
+  $("#stToday").textContent=today?"Played today. See you tomorrow!":"Play today to keep your streak";
+  const B=[3,7,14,30,50,100],next=B.find(b=>b>n)||100,prev=[...B].reverse().find(b=>b<=n)||0;
+  $("#stNext").textContent=n>=100?"All badges!":(next-n)+(next-n===1?" day":" days");
+  $("#stBar").style.width=Math.min(100,(n-prev)/(next-prev)*100)+"%";
+  $("#stBadges").innerHTML=B.map(b=>`<span class="${n>=b||best>=b?"got":""}">${b}</span>`).join("");
+  $("#tStreak").textContent=n+(n===1?" day streak":" day streak");
+}
+function renderSetup(){
+  if(ld("ram.setupHidden",false)){$("#setup").hidden=true;return}
+  const steps=[
+    ["Name your instance",insts.some(x=>x.name!=="My instance"),"instances"],
+    ["Pick a cape",!!cos.cape&&cos.cape!=="astra"||ld("ram.capePicked",false),"wardrobe"],
+    ["Choose a skin",!!ld("ram.skin",""),"wardrobe"],
+    ["Play a game",ld("ram.playDays",[]).length>0,null]];
+  const done=steps.filter(s=>s[1]).length;
+  $("#setupCount").textContent=done+" of 4 done";$("#setupBar").style.width=done*25+"%";
+  $("#setupSteps").innerHTML=steps.map(([n,ok,go])=>go?`<button class="step${ok?" done":""}" data-go="${go}"><i></i>${n}</button>`:`<a class="step${ok?" done":""} playLink" href="?play=${insts[cur].version}"><i></i>${n}</a>`).join("");
+  if(done===4)$("#setup").hidden=true;
+}
+$("#setupHide").onclick=()=>{sv("ram.setupHidden",true);$("#setup").hidden=true};
+function ago(t){if(!t)return "Not played yet";const m=Math.round((Date.now()-t)/60000);
+  return m<1?"Played just now":m<60?"Played "+m+" min ago":m<1440?"Played "+Math.round(m/60)+" h ago":"Played "+Math.round(m/1440)+" days ago"}
+function renderHomeExtra(){
+  const it=insts[cur];
+  $("#chipVer").textContent="Minecraft "+vname(it.version);
+  const on=(typeof MODDEFS!=="undefined"?MODDEFS:[]).filter(m=>mods[m.id]).length;$("#chipMods").textContent=on+(on===1?" mod on":" mods on");
+  $("#chipLast").textContent=ago(it.last);
+  $("#instPick").innerHTML=insts.map((x,i)=>`<option value="${i}"${i===cur?" selected":""}>${esc(x.name)}</option>`).join("");
+  $("#instCards").innerHTML=insts.map((x,i)=>`<button class="icard glass${i===cur?" on":""}" data-i="${i}"><span class="rbox"><i class="rlogo"></i></span><div><b>${esc(x.name)}</b><span class="s">Minecraft ${vname(x.version)}</span></div></button>`).join("");
+  $$("#instCards .icard").forEach(b=>{b.onclick=()=>{cur=+b.dataset.i;saveInsts();renderAll()};b.ondblclick=()=>{recordPlay();location.href="?play="+insts[+b.dataset.i].version}});
+  $("#newsShort").innerHTML=NEWS.slice(0,3).map(([d,t,p])=>`<article class="ncard glass"><time>${d}</time><b>${esc(t)}</b><p>${esc(p)}</p></article>`).join("");
+  renderSetup();renderStreak();
+}
+$("#instPick").onchange=e=>{cur=+e.target.value;saveInsts();renderAll()};
+$("#tSearch").onclick=()=>openSearch();
+const PAGE_NAMES={home:"Home",instances:"Instances",versions:"Versions",mods:"Mods",servers:"Servers",wardrobe:"Wardrobe",themes:"Themes",news:"News",settings:"Settings"};
+addEventListener("hashchange",()=>{$("#tTitle").textContent=PAGE_NAMES[location.hash.slice(1)]||"Home"});
+
 $$('.side .nav').forEach(b=>b.dataset.tip=b.textContent.trim());$('#openSearch').dataset.tip='Search (Ctrl K)';
-function renderAll(){renderHome();renderInsts();renderVers();renderCapes();renderThemes();drawChar();renderMods();loadSkin()}
+function renderAll(){renderHome();renderHomeExtra();renderInsts();renderVers();renderCapes();renderThemes();drawChar();renderMods();loadSkin()}
 renderAll();go(location.hash.slice(1)||"home");
 </script>
 </body>
