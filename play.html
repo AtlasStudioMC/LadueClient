@@ -1513,35 +1513,44 @@ function adSlot(size){
   return f;
 }
 function playerPage(v){
-  document.title="Play "+v.full+" | Ram-Craft";
+  document.title="Ram Client "+v.name;
   const st=document.createElement("style");
   st.textContent=`
-  body.player{margin:0;background:#070b18;color:#e8eeff;font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+  body.player{margin:0;color:#0b1b3f;font-family:Inter,system-ui,sans-serif;overflow-x:hidden;min-height:100vh;
+    background:#7cc4ff url(src/pack/web_hero.jpg) center/cover fixed}
+  body.player::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(219,234,254,.35));pointer-events:none;z-index:-1}
   body.player #site,body.player #app{display:none!important}
-  .pl-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:10px 18px;background:rgba(7,11,24,.82);border-bottom:1px solid #1f2c4d;backdrop-filter:blur(8px)}
-  .pl-logo{display:flex;align-items:center;gap:10px;font:800 18px/1 system-ui;letter-spacing:2px;color:#fff;text-decoration:none}
+  .gl{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.75);box-shadow:0 10px 40px rgba(20,60,160,.18);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4)}
+  .pl-top{position:sticky;top:12px;z-index:5;display:flex;align-items:center;gap:14px;padding:10px 16px;margin:12px 16px 0;border-radius:18px;
+    background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.75);box-shadow:0 10px 40px rgba(20,60,160,.18);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4)}
+  .pl-logo{display:flex;align-items:center;gap:10px;font:800 1.08rem/1 Inter,system-ui;color:#0b1b3f;text-decoration:none}
   .pl-logo img{width:30px;height:30px}
-  .pl-vers{display:flex;gap:6px;margin-left:10px;flex-wrap:wrap}
-  .pl-vers a{padding:7px 12px;border-radius:999px;background:#121d3a;color:#c9d6f5;text-decoration:none;font-weight:700;font-size:13px;border:1px solid #1f2c4d}
-  .pl-vers a.on{background:#3b82f6;color:#fff;border-color:#3b82f6}
+  .pl-vers{display:flex;gap:5px;margin-left:8px;background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.75);padding:4px;border-radius:999px}
+  .pl-vers a{padding:7px 14px;border-radius:999px;color:#4a5d86;text-decoration:none;font-weight:700;font-size:13px}
+  .pl-vers a.on{background:#fff;color:#2563eb;box-shadow:0 2px 8px rgba(30,64,175,.15)}
   .pl-sp{flex:1}
-  .pl-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;background:#121d3a;border:1px solid #2a3a66;color:#fff;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none}
-  .pl-btn:hover{background:#1a2a55}.pl-btn.gold{background:#3b82f6;color:#fff;border-color:#3b82f6;box-shadow:0 6px 18px rgba(59,130,246,.35)}
-  .pl-btn.red{background:#3a1520;border-color:#6b2333;color:#ff9db0}
+  .pl-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:999px;background:#fff;border:1px solid rgba(37,99,235,.18);color:#1e325f;font:700 13px Inter,system-ui;cursor:pointer;text-decoration:none}
+  .pl-btn:hover{border-color:#2563eb;color:#2563eb}
+  .pl-btn.gold{background:linear-gradient(180deg,#3b82f6,#1d4ed8);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(37,99,235,.35)}
+  .pl-btn.gold:hover{color:#fff}
+  .pl-btn.red{background:#fee2e2;border-color:#fecaca;color:#b91c1c}
   .pl-ad{display:flex;justify-content:center;align-items:center;flex-direction:column;gap:4px}
-  .pl-ad small{font-size:10px;letter-spacing:2px;color:#5d6f99;text-transform:uppercase}
-  .pl-main{display:grid;grid-template-columns:180px minmax(0,1fr) 180px;gap:18px;max-width:1700px;margin:0 auto;padding:16px 18px}
-  .pl-rail{display:flex;flex-direction:column;align-items:center;gap:18px;position:sticky;top:74px;align-self:start}
-  .pl-stage{display:flex;flex-direction:column;gap:10px;min-width:0}
-  .pl-frame{position:relative;width:100%;aspect-ratio:16/9;max-height:calc(100vh - 230px);background:#000;border-radius:14px;overflow:hidden;border:1px solid #1f2c4d;box-shadow:0 20px 60px #0008}
+  .pl-ad small{font-size:10px;letter-spacing:2px;color:#4a5d86;text-transform:uppercase}
+  .pl-main{display:grid;grid-template-columns:180px minmax(0,1fr) 180px;gap:16px;max-width:1700px;margin:0 auto;padding:14px 16px}
+  .pl-rail{display:flex;flex-direction:column;align-items:center;gap:16px;position:sticky;top:84px;align-self:start}
+  .pl-stage{display:flex;flex-direction:column;gap:12px;min-width:0}
+  .pl-frame{position:relative;width:100%;aspect-ratio:16/9;max-height:calc(100vh - 230px);background:#000;border-radius:22px;overflow:hidden;border:4px solid rgba(255,255,255,.8);box-shadow:0 20px 60px rgba(20,60,160,.3)}
   .pl-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
-  .pl-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0e1630;border:1px solid #1f2c4d;border-radius:12px;flex-wrap:wrap}
-  .pl-bar b{font-size:15px}.pl-dot{width:9px;height:9px;border-radius:50%;background:#47d18c;display:inline-block;margin-right:6px}
-  .pl-info{color:#8d97b5;font-size:13px}
+  .pl-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:18px;flex-wrap:wrap;
+    background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.75);box-shadow:0 10px 40px rgba(20,60,160,.18);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4)}
+  .pl-bar b{font-size:15px}.pl-dot{width:9px;height:9px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.2);display:inline-block;margin-right:6px}
+  .pl-info{color:#4a5d86;font-size:13px;font-weight:600}
   .pl-under{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-  .pl-card{background:#0e1630;border:1px solid #1f2c4d;border-radius:12px;padding:14px;font-size:14px;color:#c9d6f5}
-  .pl-card h4{margin:0 0 6px;color:#fff;font-size:14px}
-  .pl-card code{background:#121d3a;padding:2px 6px;border-radius:6px;color:#93c5fd}
+  .pl-card{border-radius:18px;padding:16px 18px;font-size:14px;color:#4a5d86;
+    background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.75);box-shadow:0 10px 40px rgba(20,60,160,.18);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4)}
+  .pl-card h4{margin:0 0 6px;color:#0b1b3f;font-size:15px}
+  .pl-card code{background:#fff;padding:2px 7px;border-radius:7px;color:#2563eb;font-weight:700}
   @media (max-width:1150px){.pl-main{grid-template-columns:minmax(0,1fr)}.pl-rail{display:none}}
   @media (max-width:700px){.pl-vers{display:none}.pl-top .hide-sm{display:none}}
   `;
@@ -1551,7 +1560,7 @@ function playerPage(v){
   const wrap=document.createElement("div");
   wrap.innerHTML=`
   <header class="pl-top">
-    <a class="pl-logo" href="./"><img src="src/pack/logo_clear.png" alt="">RAM-CRAFT</a>
+    <a class="pl-logo" href="./"><img src="logo.png" alt="">Ram Client</a>
     <nav class="pl-vers">${others}</nav>
     <div class="pl-sp"></div>
     <a class="pl-btn gold hide-sm" href="https://www.ram-craft.net/download/index.html" download="index.html">⬇ Download client</a>
