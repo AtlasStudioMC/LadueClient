@@ -123,7 +123,7 @@ async function unpack(id,onProgress){
     })()}});
   }else{
     // hosted build: download the gzipped game file
-    const res=await fetch('games/'+id+'.bin?v='+({v262:'rc20261116',v263:'rc20261116'}[id]||'1'),{cache:'no-cache'});
+    const res=await fetch('games/'+id+'.bin?v='+({v262:'rc20261116b',v263:'rc20261116b'}[id]||'1'),{cache:'no-cache'});
     if(!res.ok)throw new Error('could not download game ('+res.status+')');
     const total=+res.headers.get('content-length')||0;let got=0;
     const reader=res.body.getReader();
@@ -173,7 +173,7 @@ function nbtWrite(root){
   }
   u8(10);str('');payload(root);return new Uint8Array(out);
 }
-const LADUE_PACK='ladue';
+const LADUE_PACK='ramcraft';
 const LADUE_DB='_net_lax1dude_eaglercraft_v1_8_internal_PlatformFilesystem_1_8_8_ladue_worlds_26_2';
 async function installLaduePack(){
   const db=await new Promise((ok,no)=>{const r=indexedDB.open(LADUE_DB,1);
@@ -196,7 +196,7 @@ async function installLaduePack(){
     };
     tx.oncomplete=ok;tx.onerror=()=>no(tx.error)});
   db.close();
-  if(localStorage.getItem('ladue.pack.enabled'))return; // only switch it on the first time
+  if(localStorage.getItem('ramcraft.pack.enabled'))return; // only switch it on the first time
   const KEY='_eaglercraftX.g',entry='"file/'+LADUE_PACK+'"';
   let txt='version:4903\n';
   const cur=localStorage.getItem(KEY);
@@ -207,7 +207,7 @@ async function installLaduePack(){
   const gz=new Uint8Array(await new Response(new Blob([lines.join('\n')]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer());
   let bin='';for(const x of gz)bin+=String.fromCharCode(x);
   localStorage.setItem(KEY,btoa(bin));
-  localStorage.setItem('ladue.pack.enabled','1');
+  localStorage.setItem('ramcraft.pack.enabled','1');
 }
 
 async function launch(v,say){

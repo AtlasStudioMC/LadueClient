@@ -1,7 +1,7 @@
 {
-  "name": "ladue-client",
+  "name": "ram-client",
   "private": true,
-  "description": "Ladue Client - browser Minecraft launcher with capes, mods and accounts",
+  "description": "Ram Client - browser Minecraft launcher with capes, mods and accounts",
   "engines": {
     "node": ">=18"
   }
