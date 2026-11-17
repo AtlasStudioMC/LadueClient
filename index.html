@@ -15,9 +15,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#0b1b3f;--mut:#4a5d86;--blue:#2563eb;--blue2:#1d4ed8;--glass:rgba(255,255,255,.62);--glass2:rgba(255,255,255,.8);--edge:rgba(255,255,255,.75);--sh:0 10px 40px rgba(20,60,160,.18);--tint:linear-gradient(180deg,rgba(255,255,255,.18),rgba(219,234,254,.35));--bgimg:url(src/pack/web_hero.jpg);--bgc:#7cc4ff}
-html[data-theme=midnight]{--ink:#eaf0ff;--mut:#9fb0d6;--glass:rgba(12,20,45,.62);--glass2:rgba(20,32,70,.8);--edge:rgba(120,150,230,.22);--sh:0 10px 40px rgba(0,0,0,.45);--tint:linear-gradient(180deg,rgba(4,8,24,.55),rgba(4,8,24,.75));--bgc:#050a1c}
-html[data-theme=sunset]{--blue:#e85d75;--blue2:#c9405a;--tint:linear-gradient(180deg,rgba(255,170,140,.35),rgba(255,120,150,.35));--bgc:#ffb199}
-html[data-theme=plain]{--bgimg:none;--bgc:#e9f0fc;--tint:none}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;
   background:var(--bgc) var(--bgimg) center/cover fixed}
@@ -118,6 +115,45 @@ button{cursor:pointer;border:0;background:none}
 .vbadge{font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:7px;background:rgba(22,163,74,.15);color:#15803d}
 .vbadge.new{background:rgba(124,58,237,.14);color:#6d28d9}
 .empty{color:var(--mut);font-size:.9rem;padding:8px 2px}
+
+
+/* themes */
+html[data-theme=midnight]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#60a5fa;--blue2:#3b82f6;--bgimg:none;--bgc:#050816;--tint:none;
+  --blobs:radial-gradient(40vw 40vw at 15% 20%,rgba(59,130,246,.35),transparent 60%),radial-gradient(35vw 35vw at 85% 80%,rgba(99,102,241,.32),transparent 60%),radial-gradient(30vw 30vw at 70% 10%,rgba(14,165,233,.22),transparent 60%)}
+html[data-theme=aurora]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#34d399;--blue2:#10b981;--bgimg:none;--bgc:#04121a;--tint:none;
+  --blobs:radial-gradient(45vw 30vw at 20% 15%,rgba(52,211,153,.38),transparent 60%),radial-gradient(40vw 35vw at 80% 25%,rgba(168,85,247,.35),transparent 60%),radial-gradient(40vw 30vw at 50% 95%,rgba(56,189,248,.28),transparent 60%)}
+html[data-theme=ocean]{--ink:#06243a;--mut:#3f6680;--blue:#0891b2;--blue2:#0e7490;--bgimg:none;--bgc:#cdf3fb;--tint:none;
+  --blobs:radial-gradient(45vw 40vw at 10% 10%,rgba(34,211,238,.55),transparent 60%),radial-gradient(40vw 40vw at 90% 90%,rgba(59,130,246,.45),transparent 60%),radial-gradient(35vw 30vw at 80% 15%,rgba(45,212,191,.4),transparent 60%)}
+html[data-theme=blossom]{--ink:#3b0f2a;--mut:#86506d;--blue:#db2777;--blue2:#be185d;--bgimg:none;--bgc:#fde7f1;--tint:none;
+  --blobs:radial-gradient(45vw 40vw at 15% 15%,rgba(244,114,182,.5),transparent 60%),radial-gradient(40vw 40vw at 85% 85%,rgba(251,191,36,.35),transparent 60%),radial-gradient(35vw 30vw at 80% 10%,rgba(192,132,252,.4),transparent 60%)}
+html[data-theme=ember]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#fb923c;--blue2:#ea580c;--bgimg:none;--bgc:#140806;--tint:none;
+  --blobs:radial-gradient(45vw 35vw at 20% 85%,rgba(234,88,12,.45),transparent 60%),radial-gradient(40vw 35vw at 85% 20%,rgba(220,38,38,.35),transparent 60%),radial-gradient(30vw 30vw at 60% 50%,rgba(250,204,21,.15),transparent 60%)}
+html[data-theme=royal]{--ink:#eef2ff;--mut:#a3b1d6;--glass:rgba(14,20,44,.55);--glass2:rgba(255,255,255,.08);--edge:rgba(255,255,255,.12);--sh:0 14px 50px rgba(0,0,0,.45);--blue:#a78bfa;--blue2:#8b5cf6;--bgimg:none;--bgc:#0c0820;--tint:none;
+  --blobs:radial-gradient(45vw 40vw at 15% 20%,rgba(139,92,246,.42),transparent 60%),radial-gradient(35vw 35vw at 85% 80%,rgba(234,179,8,.22),transparent 60%),radial-gradient(35vw 30vw at 75% 15%,rgba(79,70,229,.35),transparent 60%)}
+html[data-theme=plain]{--bgimg:none;--bgc:#eef3fb;--tint:none;--glass:rgba(255,255,255,.92);--glass2:#f4f7fd;--edge:#e1e8f5;--sh:0 4px 18px rgba(20,40,90,.08)}
+body::after{content:"";position:fixed;inset:-10%;background:var(--blobs,none);pointer-events:none;z-index:0;animation:drift 22s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(2%,-3%) scale(1.05)}100%{transform:translate(-3%,2%) scale(1)}}
+.app{z-index:1}
+html[data-theme=midnight] .tabs button.on,html[data-theme=midnight] .seg button.on,html[data-theme=midnight] .anims button.on,html[data-theme=midnight] .cats button.on,html[data-theme=midnight] .vers button.on,
+html[data-theme=aurora] .tabs button.on,html[data-theme=aurora] .seg button.on,html[data-theme=aurora] .anims button.on,html[data-theme=aurora] .cats button.on,
+html[data-theme=ember] .tabs button.on,html[data-theme=ember] .seg button.on,html[data-theme=ember] .anims button.on,html[data-theme=ember] .cats button.on,
+html[data-theme=royal] .tabs button.on,html[data-theme=royal] .seg button.on,html[data-theme=royal] .anims button.on,html[data-theme=royal] .cats button.on{background:var(--blue);color:#0b0f1f}
+html[data-theme=midnight] .row img,html[data-theme=aurora] .row img,html[data-theme=ember] .row img,html[data-theme=royal] .row img{background:rgba(255,255,255,.9)}
+html[data-theme=midnight] .viewer,html[data-theme=aurora] .viewer,html[data-theme=ember] .viewer,html[data-theme=royal] .viewer{background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.14),rgba(255,255,255,.03))}
+html[data-theme=midnight] .mopt select,html[data-theme=midnight] .mopt input[type=text],html[data-theme=aurora] .mopt select,html[data-theme=ember] .mopt select,html[data-theme=royal] .mopt select,
+html[data-theme=aurora] .mopt input[type=text],html[data-theme=ember] .mopt input[type=text],html[data-theme=royal] .mopt input[type=text]{background:rgba(255,255,255,.08)}
+html[data-theme=midnight] option,html[data-theme=aurora] option,html[data-theme=ember] option,html[data-theme=royal] option{color:#0b1b3f}
+.themec{position:relative;padding:0;cursor:pointer;transition:transform .15s}
+#themeList{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.themec:hover{transform:translateY(-3px)}
+.themec .pv{height:120px;position:relative;overflow:hidden;background-size:cover;background-position:center}
+.themec .pv b{position:absolute;border-radius:8px;backdrop-filter:blur(6px)}
+.themec .pv .s1{left:8px;top:8px;bottom:8px;width:22%}
+.themec .pv .s2{left:calc(22% + 14px);right:8px;top:8px;height:52%}
+.themec .pv .s3{left:calc(22% + 14px);right:8px;bottom:8px;height:calc(48% - 22px)}
+.themec .pv .pb{left:calc(22% + 24px);top:calc(8px + 30%);width:44px;height:14px;border-radius:99px;backdrop-filter:none}
+.themec span{display:flex;justify-content:space-between;align-items:center}
+.themec em{font-style:normal;font-size:.7rem;font-weight:800;color:var(--blue)}
 
 /* wardrobe */
 .tabs,.seg,.anims,.cats{display:flex;gap:5px;flex-wrap:wrap;background:var(--glass2);border:1px solid var(--edge);padding:4px;border-radius:999px;width:max-content;max-width:100%}
@@ -357,7 +393,16 @@ const NEWS=[
   ["Nov 15","The End is open","Head through an End portal. Browser 26.2 can crash there, so use 26.3 or Java for the End."],
   ["Nov 14","Bedrock works","Phones, tablets, Xbox and Switch can join at ram-craft.net port 18478."]
 ];
-const THEMES=[["sky","Sky Glass","url(src/pack/web_hero.jpg)"],["midnight","Midnight","linear-gradient(135deg,#050a1c,#1e3a8a)"],["sunset","Sunset","linear-gradient(135deg,#ffb199,#ff6f91)"],["plain","Clean","linear-gradient(135deg,#e9f0fc,#fff)"]];
+const THEMES=[
+  ["sky","Sky Glass","Glass over the blue sky",{bg:"url(src/pack/web_hero.jpg)",g:"rgba(255,255,255,.6)",a:"#2563eb"}],
+  ["midnight","Midnight","Deep navy with soft blue glow",{bg:"radial-gradient(circle at 20% 20%,#1e3a8a,#050816 70%)",g:"rgba(255,255,255,.1)",a:"#60a5fa"}],
+  ["aurora","Aurora","Northern lights, green and violet",{bg:"radial-gradient(circle at 20% 15%,#047857,transparent 55%),radial-gradient(circle at 80% 25%,#6d28d9,#04121a 70%)",g:"rgba(255,255,255,.1)",a:"#34d399"}],
+  ["ocean","Ocean","Bright tropical water",{bg:"radial-gradient(circle at 15% 15%,#22d3ee,transparent 55%),radial-gradient(circle at 85% 85%,#3b82f6,#cdf3fb 70%)",g:"rgba(255,255,255,.6)",a:"#0891b2"}],
+  ["blossom","Blossom","Pink petals and warm light",{bg:"radial-gradient(circle at 15% 15%,#f472b6,transparent 55%),radial-gradient(circle at 85% 85%,#fbbf24,#fde7f1 70%)",g:"rgba(255,255,255,.6)",a:"#db2777"}],
+  ["ember","Ember","Glowing lava in the dark",{bg:"radial-gradient(circle at 20% 85%,#ea580c,transparent 55%),radial-gradient(circle at 85% 20%,#b91c1c,#140806 70%)",g:"rgba(255,255,255,.1)",a:"#fb923c"}],
+  ["royal","Royal","Violet and gold",{bg:"radial-gradient(circle at 15% 20%,#7c3aed,transparent 55%),radial-gradient(circle at 85% 80%,#a16207,#0c0820 70%)",g:"rgba(255,255,255,.1)",a:"#a78bfa"}],
+  ["plain","Clean","Simple and bright, no effects",{bg:"linear-gradient(135deg,#eef3fb,#fff)",g:"rgba(255,255,255,.95)",a:"#2563eb"}]
+];
 
 /* state */
 let insts=ld("ram.instances",null);
@@ -448,7 +493,9 @@ $("#uSave").onclick=()=>{const n=$("#uName").value.trim();
 /* themes */
 function renderThemes(){
   const t=document.documentElement.dataset.theme;
-  $("#themeList").innerHTML=THEMES.map(([id,n,bg])=>`<button class="themec${t===id?" on":""}" data-t="${id}"><i style="background-image:${bg}"></i><span>${n}</span></button>`).join("");
+  $("#themeList").innerHTML=THEMES.map(([id,n,d,p])=>`<button class="themec${t===id?" on":""}" data-t="${id}">
+    <div class="pv" style="background-image:${p.bg}"><b class="s1" style="background:${p.g}"></b><b class="s2" style="background:${p.g}"></b><b class="s3" style="background:${p.g}"></b><b class="pb" style="background:${p.a}"></b></div>
+    <span>${n}${t===id?"<em>IN USE</em>":""}</span><small class="s" style="display:block;padding:0 12px 12px">${d}</small></button>`).join("");
   $$("#themeList .themec").forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
 }
 
