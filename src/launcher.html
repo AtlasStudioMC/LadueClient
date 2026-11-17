@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ram-Craft Client</title>
+<title>Ram Client</title>
 <link rel="icon" href="__LOGO__">
 <link rel="apple-touch-icon" href="__LOGO__">
 <meta name="theme-color" content="#0a1220">
@@ -288,7 +288,7 @@ i[data-ico] svg{width:100%;height:100%;display:block}
   .cos{grid-template-columns:1fr}
   #playBtn{width:100%}
 }
-/* ===== Ram-Craft theme: Ladue Horton Watkins navy (#1F3D7C) and white ===== */
+/* ===== Ram-Craft theme: blue (#1F3D7C) and white ===== */
 :root{
   --bg:#071026;--panel:#0c1838;--panel2:#11214a;--line:#1c3266;--line2:#2a4686;
   --text:#f3f6fc;--muted:#a9b7d6;--accent:#ffffff;--accent-dk:#1f3d7c;--navy:#1f3d7c;--navy-lt:#3a5fae;--good:#5ad18a;
@@ -418,7 +418,6 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
     <button class="btn" id="navToggle" aria-label="Menu"><i data-ico="menu"></i></button>
     <div class="navlinks" id="navlinks">
       <a href="#join">Server</a>
-      <a href="/map/">Map</a>
       <a href="#versions">Versions</a>
       <a href="#capes">Capes</a>
       <a href="/players/">Players</a>
@@ -435,7 +434,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
   <header class="hero" id="top">
     <div class="wrap">
       <div class="lockup"><img src="__LOGO__" alt=""><h1>RAM-CRAFT</h1></div>
-      <p class="tagline">The Ladue Horton Watkins Minecraft client. Play 26.2 in your browser and join the Ram-Craft server.</p>
+      <p class="tagline">The Ram-Craft Minecraft client. Play 26.2 in your browser and join the Ram-Craft server.</p>
       <div class="row">
         <button class="btn primary big" data-launch><i data-ico="play"></i>Play now</button>
         <a class="btn big" href="#versions">Browse versions</a>
@@ -467,7 +466,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
 
     <section class="block" id="join">
       <div class="wrap">
-        <div class="sechead reveal"><div><h2 class="title">Join the Ram-Craft server</h2><p class="sub">The Ladue Horton Watkins server runs Minecraft 26.2. Play from Java Edition or straight from this page.</p></div></div>
+        <div class="sechead reveal"><div><h2 class="title">Join the Ram-Craft server</h2><p class="sub">The Ram-Craft server runs Minecraft 26.2. Play from Java Edition or straight from this page.</p></div></div>
         <div class="join reveal">
           <div class="jcard">
             <h3>ram-craft.net</h3>
@@ -559,7 +558,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
       <details class="faq"><summary><span class="qmark">?</span><span class="qtext">Why no capes on 1.5.2?</span><span class="toggle"><i data-ico="plus" class="plus"></i><i data-ico="minus" class="minus"></i></span></summary><p>1.5.2 uses an older profile format with no custom capes, so it gets the mod menu only.</p></details>
       <details class="faq"><summary><span class="qmark">?</span><span class="qtext">Is there 1.21?</span><span class="toggle"><i data-ico="plus" class="plus"></i><i data-ico="minus" class="minus"></i></span></summary><p>Not yet. The 1.21 browser ports we tried freeze before the main menu. It'll be added once one actually works.</p></details>
       <details class="faq"><summary><span class="qmark">?</span><span class="qtext">Where are my worlds saved?</span><span class="toggle"><i data-ico="plus" class="plus"></i><i data-ico="minus" class="minus"></i></span></summary><p>In your browser's storage for this site. Clearing site data deletes them, so back up anything you care about from inside the game.</p></details>
-      <details class="faq" id="credits"><summary><span class="qmark">?</span><span class="qtext">Credits</span><span class="toggle"><i data-ico="plus" class="plus"></i><i data-ico="minus" class="minus"></i></span></summary><p>Ram-Craft Client is a launcher and mod layer built on the open-source browser ports of Minecraft by lax1dude, ayunami2000 and contributors. Minecraft is a trademark of Mojang Studios; Ram-Craft Client is not affiliated with Mojang or Microsoft.</p></details>
+      <details class="faq" id="credits"><summary><span class="qmark">?</span><span class="qtext">Credits</span><span class="toggle"><i data-ico="plus" class="plus"></i><i data-ico="minus" class="minus"></i></span></summary><p>Ram Client is a launcher and mod layer built on the open-source browser ports of Minecraft by lax1dude, ayunami2000 and contributors. Minecraft is a trademark of Mojang Studios; Ram Client is not affiliated with Mojang or Microsoft.</p></details>
       </div>
     </section>
   </div>
@@ -638,7 +637,6 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
       <button data-page="play" class="on"><i data-ico="play"></i>Play</button>
       <button data-page="cosmetics"><i data-ico="cape"></i>Cosmetics</button>
       <button data-page="mods"><i data-ico="sliders"></i>Mods</button>
-      <button data-page="map"><i data-ico="map"></i>Map</button>
       <button data-page="players"><i data-ico="chart"></i>Players</button>
       <button data-page="settings"><i data-ico="gear"></i>Settings</button>
       <div class="spacer"></div>
@@ -667,13 +665,12 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
             <div class="srv-row"><span>Version</span><b>26.2</b></div>
             <div class="srv-row"><span>Address</span><b>ram-craft.net</b></div>
             <button class="btn primary pbtn" id="srvPlay"><i data-ico="play"></i>Play on Ram-Craft</button>
-            <button class="btn pbtn" id="srvCopy">Copy address</button><button class="btn pbtn" id="srvMap" onclick="showPage('map')">Live map</button>
+            <button class="btn pbtn" id="srvCopy">Copy address</button>
           </div>
           <div class="pcard">
             <div class="pcard-h"><span>What's new</span></div>
             <ul class="news">
               <li><b>New title screen</b><small>Floating islands over a sea of clouds, and it loads faster.</small></li>
-              <li><b>Live map</b><small>See the whole world and who's online in the Map tab.</small></li>
               <li><b>Spawn guides</b><small>Click the villagers at spawn for commands, rules and the client link.</small></li>
             </ul>
           </div>
@@ -721,12 +718,7 @@ nav.top{background:#060d22ee;border-bottom:2px solid #fff2}
         <div class="mapframe"><iframe id="playersFrame" title="Ram-Craft player history"></iframe></div>
       </section>
 
-      <section class="page" data-page="map">
-        <h2>Live map</h2>
-        <p class="sub">The Ram-Craft server world from above. It updates as people build, and online players show up live. <a href="/map/" target="_blank" rel="noopener">Open it full screen</a> · <a href="/players/" target="_blank" rel="noopener">Player history</a></p>
-        <div class="mapframe"><iframe id="mapFrame" title="Ram-Craft live map" referrerpolicy="no-referrer"></iframe></div>
-      </section>
-
+      
       <section class="page" data-page="settings">
         <h2>Settings</h2>
         <p class="sub">Launcher preferences.</p>
@@ -1022,7 +1014,6 @@ function playerPage(v){
     <nav class="pl-vers">${others}</nav>
     <div class="pl-sp"></div>
     <a class="pl-btn gold hide-sm" href="https://www.ram-craft.net/download/index.html" download="index.html">⬇ Download client</a>
-    <a class="pl-btn hide-sm" href="https://chat.ram-craft.net/" target="_blank" rel="noopener">💬 Ram-Chat</a>
     <a class="pl-btn" href="./">← Launcher</a>
   </header>
   <div class="pl-ad" style="padding-top:12px"><small>Advertisement</small><div id="adTop"></div></div>
@@ -1043,7 +1034,6 @@ function playerPage(v){
       <div class="pl-under">
         <div class="pl-card"><h4>🎮 Join the server</h4>Ram-Craft is already in Multiplayer. Java Edition players join with <code>ram-craft.net</code> (26.2 or 26.3).</div>
         <div class="pl-card"><h4>⬇ Better experience</h4>Download the client as one <code>index.html</code> file and open it any time, even when this site is blocked.</div>
-        <div class="pl-card"><h4>💬 Ram-Chat</h4>Snaps, chats and stories with your Ram-Craft friends at <code>chat.ram-craft.net</code>.</div>
       </div>
       <div class="pl-ad" style="padding-bottom:18px"><small>Advertisement</small><div id="adNative"><div id="container-8036884e71a93453e19c1b8d57bfe32a"></div></div></div>
     </section>
@@ -1103,8 +1093,8 @@ $("#playBtn").onclick=async()=>{
   if(v&&!qs.get("frame"))playerPage(v);
   else if(v){
     const boot=document.createElement("div");boot.id="boot";
-    boot.innerHTML='<div class="boot-in"><img src="src/pack/logo_clear.png" alt=""><div class="boot-name">RAM-CRAFT CLIENT</div><div class="boot-ver">'+v.name+'</div><div class="boot-bar"><i></i></div><div class="boot-msg">Preparing...</div></div>';
-    document.body.appendChild(boot);document.title="Ram-Craft Client "+v.name;
+    boot.innerHTML='<div class="boot-in"><img src="src/pack/logo_clear.png" alt=""><div class="boot-name">RAM CLIENT</div><div class="boot-ver">'+v.name+'</div><div class="boot-bar"><i></i></div><div class="boot-msg">Preparing...</div></div>';
+    document.body.appendChild(boot);document.title="Ram Client "+v.name;
     const msg=boot.querySelector(".boot-msg"),bar=boot.querySelector(".boot-bar i");
     launch(v,t=>{msg.textContent=t;const p=/(d+)%/.exec(t);if(p)bar.style.width=p[1]+"%"}).catch(e=>{msg.textContent="Failed to launch: "+e});
   }
