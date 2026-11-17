@@ -4,6 +4,19 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9478013829475247"
      crossorigin="anonymous"></script>
 <meta charset="UTF-8">
+<script>
+/* Share launcher settings across every *.ram-craft.net site (each site has its own storage). */
+(function(){
+  var KEYS=["ram.theme","astra.cosmetics","astra.mods","ram.instances","ram.current","ram.defaultVer","ram.anim.on","ram.anim","ram.skinModel","ram.setupHidden","ram.playDays","ram.bestStreak"];
+  var shared=/(^|\.)ram-craft\.net$/.test(location.hostname);
+  function ck(k){var m=document.cookie.match(new RegExp("(?:^|; )rc_"+k.replace(/\./g,"_")+"=([^;]*)"));return m?decodeURIComponent(m[1]):null}
+  function put(k,v){if(!shared)return;try{document.cookie="rc_"+k.replace(/\./g,"_")+"="+encodeURIComponent(v)+";domain=.ram-craft.net;path=/;max-age=31536000;SameSite=Lax;Secure"}catch(e){}}
+  KEYS.forEach(function(k){try{var c=ck(k),l=localStorage.getItem(k);
+    if(c!==null&&c!==l)localStorage.setItem(k,c);else if(c===null&&l!==null)put(k,l)}catch(e){}});
+  try{var orig=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){orig.call(this,k,v);if(this===window.localStorage&&KEYS.indexOf(k)>=0)put(k,String(v))};
+      var origR=Storage.prototype.removeItem;Storage.prototype.removeItem=function(k){origR.call(this,k);if(this===window.localStorage&&KEYS.indexOf(k)>=0&&shared)document.cookie="rc_"+k.replace(/\./g,"_")+"=;domain=.ram-craft.net;path=/;max-age=0"}}catch(e){}
+})();
+</script>
 <script>if(/[?&]play=/.test(location.search))location.replace("play.html"+location.search)</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ram Client - Eaglercraft Client for Minecraft 26.3 in Your Browser</title>
@@ -815,7 +828,7 @@ $("#resetMods").onclick=()=>{if(confirm("Turn every mod back to its default?"))r
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 function recordPlay(){
   const days=new Set(ld("ram.playDays",[]));days.add(dayKey(new Date()));
-  sv("ram.playDays",[...days].slice(-400));
+  sv("ram.playDays",[...days].sort().slice(-60));
   const it=insts[cur];if(it){it.last=Date.now();saveInsts()}
 }
 document.addEventListener("click",e=>{const a=e.target.closest('a[href^="?play="]');if(a)recordPlay()},true);
