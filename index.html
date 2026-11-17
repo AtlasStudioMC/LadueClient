@@ -14,317 +14,387 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0b1b3f;--mut:#4a5d86;--blue:#2563eb;--blue2:#1d4ed8;--glass:rgba(255,255,255,.62);--glass2:rgba(255,255,255,.78);--edge:rgba(255,255,255,.75);--sh:0 10px 40px rgba(20,60,160,.18)}
+:root{--ink:#0b1b3f;--mut:#4a5d86;--blue:#2563eb;--blue2:#1d4ed8;--glass:rgba(255,255,255,.62);--glass2:rgba(255,255,255,.8);--edge:rgba(255,255,255,.75);--sh:0 10px 40px rgba(20,60,160,.18);--tint:linear-gradient(180deg,rgba(255,255,255,.18),rgba(219,234,254,.35));--bgimg:url(src/pack/web_hero.jpg);--bgc:#7cc4ff}
+html[data-theme=midnight]{--ink:#eaf0ff;--mut:#9fb0d6;--glass:rgba(12,20,45,.62);--glass2:rgba(20,32,70,.8);--edge:rgba(120,150,230,.22);--sh:0 10px 40px rgba(0,0,0,.45);--tint:linear-gradient(180deg,rgba(4,8,24,.55),rgba(4,8,24,.75));--bgc:#050a1c}
+html[data-theme=sunset]{--blue:#e85d75;--blue2:#c9405a;--tint:linear-gradient(180deg,rgba(255,170,140,.35),rgba(255,120,150,.35));--bgc:#ffb199}
+html[data-theme=plain]{--bgimg:none;--bgc:#e9f0fc;--tint:none}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;
-  background:#7cc4ff url(src/pack/web_hero.jpg) center/cover fixed}
-body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(219,234,254,.35));pointer-events:none}
+  background:var(--bgc) var(--bgimg) center/cover fixed}
+body::before{content:"";position:fixed;inset:0;background:var(--tint);pointer-events:none}
 a{color:inherit;text-decoration:none}
-button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
 .glass{background:var(--glass);border:1px solid var(--edge);border-radius:22px;box-shadow:var(--sh);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4)}
-
-.app{position:relative;display:grid;grid-template-columns:232px 1fr;gap:16px;padding:16px;min-height:100vh}
+.app{position:relative;display:grid;grid-template-columns:236px 1fr;gap:16px;padding:16px;min-height:100vh}
 
 /* sidebar */
-.side{position:sticky;top:16px;height:calc(100vh - 32px);display:flex;flex-direction:column;padding:18px 12px}
-.logo{display:flex;align-items:center;gap:10px;padding:2px 8px 18px;font-weight:800;font-size:1.12rem}
+.side{position:sticky;top:16px;height:calc(100vh - 32px);display:flex;flex-direction:column;padding:16px 12px;overflow:auto}
+.logo{display:flex;align-items:center;gap:10px;padding:2px 8px 14px;font-weight:800;font-size:1.12rem}
 .logo img{width:32px;height:32px}
-.logo .tag{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--blue);background:rgba(37,99,235,.1);padding:3px 7px;border-radius:7px}
-.side h6{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:14px 10px 6px;font-weight:700}
-.side a.nav{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:11px;font-weight:600;font-size:.94rem;color:#1e325f}
-.side a.nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
-.side a.nav:hover{background:rgba(255,255,255,.6)}
-.side a.nav.on{background:#fff;color:var(--blue);box-shadow:0 2px 10px rgba(30,64,175,.12)}
-.side .foot{margin-top:auto;padding:12px 10px 0;font-size:.78rem;color:var(--mut)}
+.logo .tag{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--blue);background:rgba(37,99,235,.12);padding:3px 7px;border-radius:7px}
+.search{display:flex;align-items:center;gap:8px;margin:0 2px 6px;padding:8px 10px;border-radius:11px;background:var(--glass2);border:1px solid var(--edge);color:var(--mut);font-size:.88rem;cursor:pointer}
+.search kbd{margin-left:auto;font:600 .7rem Inter;background:rgba(127,140,170,.15);padding:2px 6px;border-radius:5px}
+.side h6{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:14px 10px 6px;font-weight:700}
+.nav{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:11px;font-weight:600;font-size:.93rem;width:100%;text-align:left}
+.nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;flex:none}
+.nav:hover{background:var(--glass2)}
+.nav.on{background:var(--glass2);color:var(--blue);box-shadow:0 2px 10px rgba(30,64,175,.12)}
+.side .foot{margin-top:auto;padding:14px 10px 0;font-size:.76rem;color:var(--mut)}
 
-/* main */
-.main{display:grid;grid-template-columns:1fr 320px;gap:16px;align-content:start}
-.hero{grid-column:1/-1;position:relative;overflow:hidden;padding:34px 38px;min-height:330px;display:flex;flex-direction:column;justify-content:center}
-.hero .chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{display:inline-flex;align-items:center;gap:7px;background:var(--glass2);border:1px solid var(--edge);padding:6px 12px;border-radius:999px;font-size:.8rem;font-weight:600;color:#1e325f}
-.dot{width:8px;height:8px;border-radius:50%;background:#94a3b8}
+/* pages */
+.page{display:none;gap:16px;align-content:start}
+.page.on{display:grid}
+.cols{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+.stack{display:grid;gap:16px;align-content:start}
+.panel{padding:22px 24px}
+.panel h2{font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.panel h2 .lnk{font-size:.82rem;color:var(--blue);font-weight:700}
+.ptitle{font-size:2rem;font-weight:900;letter-spacing:-.03em;padding:6px 4px 0}
+.psub{color:var(--mut);padding:0 4px;margin-top:-8px}
+
+.hero{position:relative;overflow:hidden;padding:30px 36px;min-height:320px;display:flex;flex-direction:column;justify-content:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--glass2);border:1px solid var(--edge);padding:6px 12px;border-radius:999px;font-size:.8rem;font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:#94a3b8;flex:none}
 .dot.on{background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.2)}
 .dot.off{background:#dc2626}
-.hero h1{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:900;letter-spacing:-.045em;line-height:1;margin:18px 0 22px}
-.playrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;letter-spacing:-.045em;line-height:1.02;margin:16px 0 20px;max-width:60%}
+.playrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .play{display:inline-flex;align-items:center;gap:12px;padding:16px 30px 16px 26px;border-radius:999px;font-weight:800;font-size:1.25rem;color:#fff;
-  background:linear-gradient(180deg,#3b82f6,#1d4ed8);box-shadow:0 12px 30px rgba(37,99,235,.45),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .15s,box-shadow .15s}
-.play:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(37,99,235,.55),inset 0 1px 0 rgba(255,255,255,.35)}
+  background:linear-gradient(180deg,color-mix(in srgb,var(--blue) 80%,#fff),var(--blue2));box-shadow:0 12px 30px color-mix(in srgb,var(--blue) 45%,transparent),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .15s}
+.play:hover{transform:translateY(-2px)}
 .play svg{width:20px;height:20px}
 .play small{font-size:.78rem;font-weight:700;background:rgba(255,255,255,.22);padding:3px 8px;border-radius:8px}
-.vers{display:flex;gap:6px;background:var(--glass2);border:1px solid var(--edge);padding:5px;border-radius:999px}
-.vers button{padding:9px 16px;border-radius:999px;font-weight:700;font-size:.9rem;color:var(--mut)}
-.vers button.on{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(30,64,175,.15)}
-.hero .art{position:absolute;right:28px;bottom:-6px;width:min(300px,34%);opacity:.95;filter:drop-shadow(0 20px 40px rgba(29,78,216,.35));pointer-events:none}
+.round{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--glass2);border:1px solid var(--edge);font-weight:800}
+.instq{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.iq{display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 7px;border-radius:12px;background:var(--glass2);border:1px solid var(--edge);font-weight:700;font-size:.88rem}
+.iq b{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:var(--blue);color:#fff;font-size:.78rem}
+.iq.on{outline:2px solid var(--blue)}
+.char{position:absolute;right:34px;top:50%;transform:translateY(-50%);text-align:center}
+.char canvas{width:150px;height:240px;image-rendering:pixelated;filter:drop-shadow(0 18px 30px rgba(29,78,216,.35))}
+.char .chip{margin-top:8px;cursor:pointer}
 
-.panel{padding:22px 24px}
-.panel h2{font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.panel h2 a{font-size:.82rem;color:var(--blue);font-weight:700}
-
-.srv{display:flex;align-items:center;gap:14px;padding:12px;border-radius:16px;background:rgba(255,255,255,.55);border:1px solid var(--edge)}
-.srv img{width:46px;height:46px;border-radius:12px;background:#fff;padding:5px}
-.srv .t{flex:1;min-width:0}
-.srv b{display:block;font-size:1rem}
-.srv span{font-size:.84rem;color:var(--mut)}
-.join{padding:9px 18px;border-radius:999px;background:var(--blue);color:#fff;font-weight:700;font-size:.88rem}
-.join:hover{background:var(--blue2)}
-
-.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-.way{padding:14px;border-radius:14px;background:rgba(255,255,255,.5);border:1px solid var(--edge)}
+.row{display:flex;align-items:center;gap:14px;padding:12px;border-radius:16px;background:var(--glass2);border:1px solid var(--edge)}
+.row+.row{margin-top:10px}
+.row img{width:46px;height:46px;border-radius:12px;background:#fff;padding:5px;flex:none}
+.row .t{flex:1;min-width:0}
+.row b{display:block}
+.row span.s{font-size:.84rem;color:var(--mut)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;background:var(--blue);color:#fff;font-weight:700;font-size:.88rem;white-space:nowrap}
+.btn:hover{background:var(--blue2)}
+.btn.ghost{background:var(--glass2);color:var(--ink);border:1px solid var(--edge)}
+.btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
+.btn.red{background:#fee2e2;color:#b91c1c}
+.copy{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.82rem;color:var(--blue);background:var(--glass2);border:1px solid var(--edge);padding:6px 10px;border-radius:9px}
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.way{padding:14px;border-radius:14px;background:var(--glass2);border:1px solid var(--edge)}
 .way b{font-size:.92rem;display:block;margin-bottom:2px}
 .way p{font-size:.8rem;color:var(--mut);margin-bottom:9px}
-.copy{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.82rem;color:var(--blue);background:#fff;border:1px solid rgba(37,99,235,.2);padding:6px 10px;border-radius:9px}
-.copy:hover{border-color:var(--blue)}
 
-.news article{padding:14px 0;border-top:1px solid rgba(255,255,255,.8);display:grid;grid-template-columns:62px 1fr;gap:10px}
+.news article{padding:14px 0;border-top:1px solid var(--edge);display:grid;grid-template-columns:62px 1fr;gap:10px}
 .news article:first-of-type{border-top:0;padding-top:0}
 .news time{font-size:.78rem;font-weight:700;color:var(--blue);padding-top:2px}
 .news b{display:block;font-size:.95rem;margin-bottom:2px}
 .news p{font-size:.86rem;color:var(--mut);line-height:1.5}
-
-.rightcol{display:grid;gap:16px;align-content:start}
 .big{font-size:2.6rem;font-weight:900;letter-spacing:-.04em;color:var(--blue);line-height:1.1}
-.panel p.s{font-size:.86rem;color:var(--mut)}
+.s{font-size:.86rem;color:var(--mut)}
 .adbox{display:flex;justify-content:center;padding:10px;overflow:hidden}
 .adbox iframe{border:0;width:300px;height:250px;max-width:100%}
-.leftcol{display:grid;gap:16px;align-content:start}
 
-@media (max-width:1100px){.main{grid-template-columns:1fr}.ways{grid-template-columns:1fr 1fr 1fr}}
-@media (max-width:820px){.app{grid-template-columns:1fr;padding:12px}.side{position:static;height:auto;flex-direction:row;align-items:center;padding:10px 12px;overflow-x:auto}
-  .side h6,.side .foot{display:none}.logo{padding:0 10px 0 4px}.logo .tag{display:none}.side a.nav{white-space:nowrap}
-  .hero{padding:26px 22px}.hero .art{display:none}.ways{grid-template-columns:1fr}}
+.field{display:grid;gap:6px;margin-bottom:12px}
+.field label{font-size:.8rem;font-weight:700;color:var(--mut)}
+.field input,.field select{padding:10px 12px;border-radius:11px;border:1px solid var(--edge);background:var(--glass2);outline:none}
+.field input:focus,.field select:focus{border-color:var(--blue)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.capec{padding:14px;border-radius:16px;background:var(--glass2);border:2px solid transparent;text-align:center;font-weight:700;font-size:.88rem}
+.capec canvas{width:60px;height:96px;image-rendering:pixelated;display:block;margin:4px auto 10px;border-radius:4px}
+.capec.on{border-color:var(--blue);color:var(--blue)}
+.themec{border-radius:18px;overflow:hidden;border:2px solid transparent;background:var(--glass2);text-align:left}
+.themec i{display:block;height:90px;background-size:cover;background-position:center}
+.themec span{display:block;padding:10px 12px;font-weight:700;font-size:.9rem}
+.themec.on{border-color:var(--blue)}
+.vcard{display:flex;gap:14px;align-items:center}
+.vbadge{font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:7px;background:rgba(22,163,74,.15);color:#15803d}
+.vbadge.new{background:rgba(124,58,237,.14);color:#6d28d9}
+.empty{color:var(--mut);font-size:.9rem;padding:8px 2px}
 
-/* play page */
-body.player{height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#000}
-body.player::before{display:none}
-.bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#0b1530;color:#fff;flex-wrap:wrap}
-.bar .logo{padding:0;font-size:.95rem;margin-right:8px}
-.bar .logo img{width:26px;height:26px}
-.bar .sp{flex:1}
-.bar a.v,.bar button{font:600 .85rem Inter,system-ui;color:#cbd6f5;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:7px 13px;cursor:pointer}
-.bar a.v.on{background:var(--blue);border-color:var(--blue);color:#fff}
-.bar a.exit{font:600 .85rem Inter,system-ui;color:#fff;background:#dc2626;border-radius:9px;padding:7px 13px}
-#game{flex:1;border:0;width:100%;min-height:0;background:#000}
-.pad{display:flex;justify-content:center;background:#0b1530;padding:4px 0}
-.pad iframe{border:0;width:728px;max-width:100%;height:90px}
-#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9;color:#fff;
-  background:radial-gradient(circle at 50% 40%,#1e40af,#0b1530 70%)}
-.boot-in{text-align:center;width:min(340px,80vw)}
-.boot-in img{width:92px;height:92px;animation:float 2.4s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-8px)}}
-.boot-name{font-weight:900;font-size:1.7rem;letter-spacing:-.02em;margin-top:14px}
-.boot-ver{color:#93c5fd;font-weight:600;margin-bottom:22px}
-.boot-bar{height:6px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}
-.boot-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#bfdbfe);transition:width .2s}
-.boot-msg{margin-top:12px;color:#bcd0f5;font-size:.88rem}
+/* search */
+.sk{position:fixed;inset:0;background:rgba(8,15,40,.35);display:none;align-items:flex-start;justify-content:center;padding-top:14vh;z-index:30}
+.sk.on{display:flex}
+.skbox{width:min(520px,92vw);padding:10px}
+.skbox input{width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--edge);background:var(--glass2);font-size:1rem;outline:none}
+.skres button{display:block;width:100%;text-align:left;padding:11px 14px;border-radius:11px;font-weight:600;margin-top:4px}
+.skres button:hover,.skres button.sel{background:var(--glass2);color:var(--blue)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(80px);padding:11px 18px;border-radius:12px;background:#0b1b3f;color:#fff;font-weight:600;font-size:.9rem;transition:transform .25s;z-index:40}
+.toast.on{transform:translateX(-50%)}
+
+@media (max-width:1100px){.cols{grid-template-columns:1fr}.hero h1{max-width:100%}.char{display:none}}
+@media (max-width:820px){.app{grid-template-columns:1fr;padding:12px}.side{position:static;height:auto;flex-direction:row;align-items:center;padding:10px;overflow-x:auto}
+  .side h6,.side .foot,.search{display:none}.logo{padding:0 8px 0 4px}.logo .tag{display:none}.nav{white-space:nowrap;width:auto}
+  .hero{padding:24px 20px}.ways{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="app" id="site">
+<div class="app">
   <aside class="side glass">
-    <a class="logo" href="./"><img src="logo.png" alt="">Ram Client<span class="tag">26.3</span></a>
+    <a class="logo" href="#home"><img src="logo.png" alt="">Ram Client<span class="tag" id="tagVer">26.3</span></a>
+    <div class="search" id="openSearch"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Search<kbd>Ctrl K</kbd></div>
     <h6>Play</h6>
-    <a class="nav on" href="#home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg>Home</a>
-    <a class="nav" href="#servers"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg>Servers</a>
-    <a class="nav" href="#join"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M10 14L21 3M21 14v7H3V3h7"/></svg>How to join</a>
-    <h6>More</h6>
-    <a class="nav" href="#news"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>News</a>
+    <button class="nav" data-go="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg>Home</button>
+    <button class="nav" data-go="instances"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Instances</button>
+    <button class="nav" data-go="versions"><svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>Versions</button>
+    <button class="nav" data-go="servers"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></svg>Servers</button>
+    <h6>You</h6>
+    <button class="nav" data-go="wardrobe"><svg viewBox="0 0 24 24"><path d="M8 3l4 3 4-3 5 4-3 4-2-1v11H8V10l-2 1-3-4z"/></svg>Wardrobe</button>
+    <button class="nav" data-go="themes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18c1 0 2-1 2-2s-1-2 0-3 3 0 4-1 3-3 3-5c0-4-4-7-9-7z"/></svg>Themes</button>
+    <button class="nav" data-go="news"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>News</button>
     <div class="foot">Ram Client · ram-craft.net<br>Not affiliated with Mojang.</div>
   </aside>
 
-  <main class="main">
-    <section class="hero glass" id="home">
-      <div class="chips"><span class="chip"><span class="dot" id="sDot"></span><span id="sTxt">Checking server</span></span><span class="chip">No download</span></div>
-      <h1>Ram-Craft</h1>
-      <div class="playrow">
-        <a class="play" id="playBtn" href="?play=v263"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play <small id="playVer">26.3</small></a>
-        <div class="vers" id="vers"><button data-v="v263" class="on">26.3</button><button data-v="v262">26.2</button></div>
+  <main>
+    <!-- HOME -->
+    <section class="page" data-page="home">
+      <div class="hero glass">
+        <div class="chips"><span class="chip"><span class="dot" id="sDot"></span><span id="sTxt">Checking server</span></span><span class="chip" id="chipVer">26.3</span></div>
+        <h1 id="instName">My instance</h1>
+        <div class="playrow">
+          <a class="play" id="playBtn" href="?play=v263"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play <small id="playVer">26.3</small></a>
+          <button class="round" title="Edit instances" data-go="instances">⋯</button>
+        </div>
+        <div class="instq" id="instQuick"></div>
+        <div class="char"><canvas id="charCv" width="16" height="32"></canvas><br><span class="chip" data-go="wardrobe">Change cape</span></div>
       </div>
-      <img class="art" src="logo.png" alt="">
+      <div class="cols">
+        <div class="stack">
+          <div class="panel glass"><h2>Servers <a class="lnk" href="#servers">All servers</a></h2>
+            <div class="row"><img src="logo.png" alt=""><div class="t"><b>Ram-Craft</b><span class="s srvLine">ram-craft.net</span></div><a class="btn playLink" href="?play=v263">Join</a></div>
+          </div>
+          <div class="panel glass news"><h2>News <a class="lnk" href="#news">All news</a></h2><div id="newsShort"></div></div>
+        </div>
+        <div class="stack">
+          <div class="panel glass"><h2>Playing now</h2><div class="big" id="plCount">–</div><p class="s">On Ram-Craft right now</p></div>
+          <div class="panel glass"><h2>First time?</h2><p class="s">When you first join you make a password, pick your grade and type your first name. Next time just log in.</p></div>
+          <div class="glass adbox"><iframe src="ad.html?s=rect" title="Advertisement" loading="lazy"></iframe></div>
+        </div>
+      </div>
     </section>
 
-    <div class="leftcol">
-      <section class="panel glass" id="servers">
-        <h2>Servers</h2>
-        <div class="srv"><img src="logo.png" alt=""><div class="t"><b>Ram-Craft</b><span id="srvLine">ram-craft.net</span></div><a class="join" id="joinBtn" href="?play=v263">Join</a></div>
-      </section>
+    <!-- INSTANCES -->
+    <section class="page" data-page="instances">
+      <h1 class="ptitle">Instances</h1><p class="psub">Each instance remembers its own name and version. Press 1 to 9 on Home to switch.</p>
+      <div class="cols">
+        <div class="panel glass"><h2>Your instances</h2><div id="instList"></div></div>
+        <div class="panel glass"><h2>New instance</h2>
+          <div class="field"><label for="niName">Name</label><input id="niName" maxlength="24" placeholder="My instance"></div>
+          <div class="field"><label for="niVer">Version</label><select id="niVer"></select></div>
+          <button class="btn" id="niAdd">Create instance</button>
+        </div>
+      </div>
+    </section>
 
-      <section class="panel glass" id="join">
-        <h2>How to join</h2>
+    <!-- VERSIONS -->
+    <section class="page" data-page="versions">
+      <h1 class="ptitle">Versions</h1><p class="psub">Both versions can join Ram-Craft.</p>
+      <div class="panel glass" id="verList"></div>
+    </section>
+
+    <!-- SERVERS -->
+    <section class="page" data-page="servers">
+      <h1 class="ptitle">Servers</h1><p class="psub">Ram-Craft is already saved in every version's Multiplayer list.</p>
+      <div class="panel glass">
+        <div class="row"><img src="logo.png" alt=""><div class="t"><b>Ram-Craft</b><span class="s srvLine">ram-craft.net</span></div><a class="btn playLink" href="?play=v263">Join</a></div>
+      </div>
+      <div class="panel glass"><h2>Join from anywhere</h2>
         <div class="ways">
-          <div class="way"><b>Browser</b><p>Press Play. Ram-Craft is already in Multiplayer.</p><a class="copy" href="?play=v263">Play now</a></div>
+          <div class="way"><b>Browser</b><p>Press Play. Ram-Craft is already in Multiplayer.</p><a class="copy playLink" href="?play=v263">Play now</a></div>
           <div class="way"><b>Java</b><p>Add Server. 26.2 and 26.3 can join.</p><button class="copy" data-copy="ram-craft.net">ram-craft.net</button></div>
           <div class="way"><b>Bedrock</b><p>Address and port 18478.</p><button class="copy" data-copy="ram-craft.net">ram-craft.net · 18478</button></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="panel glass news" id="news">
-        <h2>News</h2>
-        <article><time>Nov 16</time><div><b>Welcome to Ram Client</b><p>New name, new blue R and a brand new launcher. Pick 26.3 or 26.2 and press Play.</p></div></article>
-        <article><time>Nov 16</time><div><b>PvP is on</b><p>Players can fight now, and every player drops their head when they die.</p></div></article>
-        <article><time>Nov 15</time><div><b>The End is open</b><p>Head through an End portal on the server. Browser 26.2 can crash there, so use 26.3 or Java for the End.</p></div></article>
-      </section>
-    </div>
+    <!-- WARDROBE -->
+    <section class="page" data-page="wardrobe">
+      <h1 class="ptitle">Wardrobe</h1><p class="psub">Your name and cape go into the game the next time you press Play.</p>
+      <div class="cols">
+        <div class="panel glass"><h2>Capes</h2><div class="grid3" id="capeList"></div></div>
+        <div class="panel glass"><h2>Your name</h2>
+          <div class="field"><label for="uName">In-game name (3 to 16 letters, numbers or _)</label><input id="uName" maxlength="16" placeholder="Steve"></div>
+          <button class="btn" id="uSave">Save</button>
+          <p class="s" style="margin-top:12px">Use the same name every time, or the server will ask you to register again.</p>
+        </div>
+      </div>
+    </section>
 
-    <div class="rightcol">
-      <section class="panel glass"><h2>First time?</h2><p class="s">When you first join you make a password, pick your grade and type your first name. Next time just log in.</p></section>
-      <section class="glass adbox"><iframe src="ad.html?s=rect" title="Advertisement" loading="lazy"></iframe></section>
-    </div>
+    <!-- THEMES -->
+    <section class="page" data-page="themes">
+      <h1 class="ptitle">Themes</h1><p class="psub">Change how Ram Client looks. It's saved on this browser.</p>
+      <div class="panel glass"><div class="grid3" id="themeList"></div></div>
+    </section>
+
+    <!-- NEWS -->
+    <section class="page" data-page="news">
+      <h1 class="ptitle">News</h1>
+      <div class="panel glass news" id="newsAll"></div>
+    </section>
   </main>
 </div>
 
+<div class="sk" id="sk"><div class="skbox glass"><input id="skIn" placeholder="Search pages, versions, capes..." autocomplete="off"><div class="skres" id="skRes"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="src/capes.js"></script>
 <script>
-const $=s=>document.querySelector(s);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const ld=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const toast=t=>{const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),1800)};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
 const VERSIONS=[
-  {id:"v263",name:"26.3"},
-  {id:"v262",name:"26.2"}
+  {id:"v263",name:"26.3",desc:"Newest Minecraft. Smoothest in the End.",badge:["Newest","new"]},
+  {id:"v262",name:"26.2",desc:"Same version as the server.",badge:["Stable",""]}
 ];
-async function unpack(id,onProgress){
-  const el=document.getElementById(id);
-  let stream;
-  if(el){
-    // offline build: game is embedded as base64 (decoded in chunks to save memory)
-    const b64=el.textContent,CH=4*1024*1024;
-    stream=new ReadableStream({start(ctl){let i=0,carry='';(function next(){
-      if(i>=b64.length){ctl.close();return}
-      let chunk=carry+b64.slice(i,i+CH).replace(/\s+/g,'');i+=CH;
-      const cut=chunk.length-chunk.length%4;carry=chunk.slice(cut);chunk=chunk.slice(0,cut);
-      const bin=atob(chunk),u=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);
-      ctl.enqueue(u);setTimeout(next,0);
-    })()}});
-  }else{
-    // hosted build: download the gzipped game file
-    const res=await fetch('games/'+id+'.bin?v='+({v262:'rc20261116b',v263:'rc20261116b'}[id]||'1'),{cache:'no-cache'});
-    if(!res.ok)throw new Error('could not download game ('+res.status+')');
-    const total=+res.headers.get('content-length')||0;let got=0;
-    const reader=res.body.getReader();
-    stream=new ReadableStream({async pull(ctl){const {done,value}=await reader.read();if(done){ctl.close();return}
-      got+=value.length;if(total&&onProgress)onProgress(Math.min(100,Math.round(got/total*100)));ctl.enqueue(value)}});
-  }
-  return await new Response(stream.pipeThrough(new DecompressionStream('gzip'))).text();
+const NEWS=[
+  ["Nov 16","Welcome to Ram Client","New name, new blue R and a new launcher with instances, a wardrobe and themes."],
+  ["Nov 16","PvP is on","Players can fight now, and every player drops their head when they die."],
+  ["Nov 15","The End is open","Head through an End portal. Browser 26.2 can crash there, so use 26.3 or Java for the End."],
+  ["Nov 14","Bedrock works","Phones, tablets, Xbox and Switch can join at ram-craft.net port 18478."]
+];
+const THEMES=[["sky","Sky Glass","url(src/pack/web_hero.jpg)"],["midnight","Midnight","linear-gradient(135deg,#050a1c,#1e3a8a)"],["sunset","Sunset","linear-gradient(135deg,#ffb199,#ff6f91)"],["plain","Clean","linear-gradient(135deg,#e9f0fc,#fff)"]];
+
+/* state */
+let insts=ld("ram.instances",null);
+if(!Array.isArray(insts)||!insts.length)insts=[{name:"My instance",version:"v263"}];
+let cur=Math.min(ld("ram.current",0),insts.length-1);
+const cos=Object.assign({username:"",cape:"astra"},ld("astra.cosmetics",{}));
+const saveInsts=()=>{sv("ram.instances",insts);sv("ram.current",cur)};
+const vname=id=>(VERSIONS.find(v=>v.id===id)||VERSIONS[0]).name;
+
+/* theme */
+const setTheme=t=>{document.documentElement.dataset.theme=t;sv("ram.theme",t);renderThemes()};
+document.documentElement.dataset.theme=ld("ram.theme","sky");
+
+/* pages */
+function go(p){
+  if(!$('.page[data-page="'+p+'"]'))p="home";
+  $$(".page").forEach(s=>s.classList.toggle("on",s.dataset.page===p));
+  $$(".nav").forEach(b=>b.classList.toggle("on",b.dataset.go===p));
+  if(location.hash.slice(1)!==p)history.replaceState(null,"","#"+p);
+  scrollTo(0,0);
 }
-function nbtRead(bytes){
-  const dv=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);let p=0;const dec=new TextDecoder();
-  const str=()=>{const n=dv.getUint16(p);p+=2;const s=dec.decode(bytes.subarray(p,p+n));p+=n;return s};
-  function payload(t){
-    switch(t){
-      case 1:return{t,v:dv.getInt8(p++)};
-      case 2:{const v=dv.getInt16(p);p+=2;return{t,v}}
-      case 3:{const v=dv.getInt32(p);p+=4;return{t,v}}
-      case 4:{const v=dv.getBigInt64(p);p+=8;return{t,v}}
-      case 5:{const v=dv.getFloat32(p);p+=4;return{t,v}}
-      case 6:{const v=dv.getFloat64(p);p+=8;return{t,v}}
-      case 7:{const n=dv.getInt32(p);p+=4;const v=bytes.slice(p,p+n);p+=n;return{t,v}}
-      case 8:return{t,v:str()};
-      case 9:{const et=dv.getInt8(p++),n=dv.getInt32(p);p+=4;const v=[];for(let i=0;i<n;i++)v.push(payload(et));return{t,et,v}}
-      case 10:{const v=new Map();for(;;){const ct=dv.getInt8(p++);if(ct===0)break;const k=str();v.set(k,payload(ct))}return{t,v}}
-      case 11:{const n=dv.getInt32(p);p+=4;const v=[];for(let i=0;i<n;i++){v.push(dv.getInt32(p));p+=4}return{t,v}}
-    }
-    throw new Error('bad nbt tag '+t);
-  }
-  const t=dv.getInt8(p++);str();return payload(t);
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.dataset.go)}});
+addEventListener("hashchange",()=>go(location.hash.slice(1)));
+
+/* home */
+function renderHome(){
+  const it=insts[cur],n=vname(it.version);
+  $("#instName").textContent=it.name;$("#playVer").textContent=n;$("#chipVer").textContent="Version "+n;$("#tagVer").textContent=n;
+  $("#playBtn").href="?play="+it.version;$$(".playLink").forEach(a=>a.href="?play="+it.version);
+  $("#instQuick").innerHTML=insts.slice(0,9).map((x,i)=>`<button class="iq${i===cur?" on":""}" data-i="${i}"><b>${i+1}</b>${esc(x.name)}</button>`).join("");
+  $$("#instQuick .iq").forEach(b=>b.onclick=()=>{cur=+b.dataset.i;saveInsts();renderHome()});
 }
-function nbtWrite(root){
-  const out=[];const enc=new TextEncoder();
-  const u8=b=>out.push(b&255),u16=n=>{u8(n>>8);u8(n)},i32=n=>{u8(n>>>24);u8(n>>>16);u8(n>>>8);u8(n)};
-  const str=s=>{const b=enc.encode(s);u16(b.length);for(const x of b)u8(x)};
-  function payload(tag){
-    const {t,v}=tag,dv=new DataView(new ArrayBuffer(8));
-    switch(t){
-      case 1:u8(v);break;case 2:u16(v);break;case 3:i32(v);break;
-      case 4:dv.setBigInt64(0,v);for(let i=0;i<8;i++)u8(dv.getUint8(i));break;
-      case 5:dv.setFloat32(0,v);for(let i=0;i<4;i++)u8(dv.getUint8(i));break;
-      case 6:dv.setFloat64(0,v);for(let i=0;i<8;i++)u8(dv.getUint8(i));break;
-      case 7:i32(v.length);for(const x of v)u8(x);break;
-      case 8:str(v);break;
-      case 9:u8(tag.et||0);i32(v.length);v.forEach(payload);break;
-      case 10:for(const [k,c] of v){u8(c.t);str(k);payload(c)}u8(0);break;
-      case 11:i32(v.length);v.forEach(i32);break;
-    }
-  }
-  u8(10);str('');payload(root);return new Uint8Array(out);
+addEventListener("keydown",e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openSearch();return}
+  if(e.key==="Escape")closeSearch();
+  if(/^[1-9]$/.test(e.key)&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&$('.page[data-page="home"]').classList.contains("on")){
+    const i=+e.key-1;if(insts[i]){cur=i;saveInsts();renderHome()}}
+});
+
+/* instances */
+function renderInsts(){
+  $("#instList").innerHTML=insts.map((x,i)=>`<div class="row"><img src="logo.png" alt=""><div class="t"><b>${esc(x.name)}</b><span class="s">Version ${vname(x.version)}${i===cur?" · selected":""}</span></div>
+    <a class="btn" href="?play=${x.version}">Play</a><button class="btn ghost" data-sel="${i}">Select</button>${insts.length>1?`<button class="btn red" data-del="${i}">Delete</button>`:""}</div>`).join("");
+  $$("#instList [data-sel]").forEach(b=>b.onclick=()=>{cur=+b.dataset.sel;saveInsts();renderAll();toast("Selected")});
+  $$("#instList [data-del]").forEach(b=>b.onclick=()=>{const i=+b.dataset.del;insts.splice(i,1);if(cur>=insts.length)cur=insts.length-1;saveInsts();renderAll();toast("Instance deleted")});
 }
-const LADUE_PACK='ramcraft';
-const LADUE_DB='_net_lax1dude_eaglercraft_v1_8_internal_PlatformFilesystem_1_8_8_ladue_worlds_26_2';
-async function installLaduePack(){
-  const db=await new Promise((ok,no)=>{const r=indexedDB.open(LADUE_DB,1);
-    r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('filesystem'))r.result.createObjectStore('filesystem',{keyPath:['path']})};
-    r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
-  const files=await (await fetch('games/ladue-pack.json?v=20c20eace7',{cache:'no-cache'})).json();
-  await new Promise((ok,no)=>{const tx=db.transaction('filesystem','readwrite'),st=tx.objectStore('filesystem');
-    const put=(path,bytes)=>st.put({path,data:bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)});
-    put('resourcepacks/.eaglerfsdir',new Uint8Array(0));
-    put('resourcepacks/'+LADUE_PACK+'/.eaglerfsdir',new Uint8Array(0));
-    for(const [name,b64] of Object.entries(files))put('resourcepacks/'+LADUE_PACK+'/'+name,Uint8Array.from(atob(b64),c=>c.charCodeAt(0)));
-    // Multiplayer list: keep the player's own servers, drop leftovers from older builds
-    const has=st.get(['servers.dat']);has.onsuccess=()=>{
-      let list=[];
-      try{const d=has.result&&has.result.data;if(d)list=nbtRead(new Uint8Array(d)).v.get('servers').v}catch(e){list=[]}
-      const s=(e,k)=>{const x=e.v.get(k);return x?String(x.v):''};
-      // drop old ArchMC entries and the launcher-made Ram-Craft entry; the game pins its own Ram-Craft entry
-      list=list.filter(e=>!/0.0.0.0|arch.mc|archmc/i.test(s(e,'ip')+' '+s(e,'name'))&&!['ram-craft.net','ladue.cc.cd'].includes(s(e,'ip'))&&!/ladue/i.test(s(e,'ip')+' '+s(e,'name')));
-      put('servers.dat',nbtWrite({t:10,v:new Map([['servers',{t:9,et:10,v:list}]])}));
-    };
-    tx.oncomplete=ok;tx.onerror=()=>no(tx.error)});
-  db.close();
-  if(localStorage.getItem('ramcraft.pack.enabled'))return; // only switch it on the first time
-  const KEY='_eaglercraftX.g',entry='"file/'+LADUE_PACK+'"';
-  let txt='version:4903\n';
-  const cur=localStorage.getItem(KEY);
-  if(cur)txt=await new Response(new Blob([Uint8Array.from(atob(cur),c=>c.charCodeAt(0))]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
-  const lines=txt.split('\n');const i=lines.findIndex(l=>l.startsWith('resourcePacks:'));
-  if(i<0)lines.splice(1,0,'resourcePacks:["vanilla",'+entry+']');
-  else if(!lines[i].includes(entry))lines[i]=lines[i].replace(/\]\s*$/,(lines[i].includes('[]')?'':',')+entry+']');
-  const gz=new Uint8Array(await new Response(new Blob([lines.join('\n')]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer());
-  let bin='';for(const x of gz)bin+=String.fromCharCode(x);
-  localStorage.setItem(KEY,btoa(bin));
-  localStorage.setItem('ramcraft.pack.enabled','1');
+$("#niVer").innerHTML=VERSIONS.map(v=>`<option value="${v.id}">${v.name}</option>`).join("");
+$("#niAdd").onclick=()=>{
+  if(insts.length>=9){toast("You can have up to 9 instances");return}
+  const name=($("#niName").value.trim()||"Instance "+(insts.length+1)).slice(0,24);
+  insts.push({name,version:$("#niVer").value});cur=insts.length-1;saveInsts();$("#niName").value="";renderAll();toast("Instance created")};
+
+/* versions */
+function renderVers(){
+  $("#verList").innerHTML=VERSIONS.map(v=>`<div class="row vcard"><img src="logo.png" alt=""><div class="t"><b>Ram Client ${v.name} <span class="vbadge ${v.badge[1]}">${v.badge[0]}</span></b><span class="s">${v.desc}</span></div><a class="btn" href="?play=${v.id}">Play</a></div>`).join("");
 }
 
-async function launch(v,say){
-  try{await installLaduePack()}catch(e){console.warn("pack install failed",e)}
-  say("Loading "+v.name+"...");
-  const html=await unpack(v.id,p=>say("Downloading "+v.name+"... "+p+"%"));
-  document.open();document.write(html);document.close();
+/* capes */
+const capeImg={};
+function capeCanvas(c,cv,w,h){
+  const go=img=>{const x=cv.getContext("2d");x.imageSmoothingEnabled=false;x.clearRect(0,0,cv.width,cv.height);x.drawImage(img,1,1,10,16,0,0,w,h)};
+  if(capeImg[c.id])return go(capeImg[c.id]);
+  const img=new Image();img.onload=()=>{capeImg[c.id]=img;go(img)};img.src="data:image/png;base64,"+c.png;
 }
-{
-  const qs=new URLSearchParams(location.search),id=qs.get("play"),v=id&&VERSIONS.find(x=>x.id===id);
-  if(v&&!qs.get("frame")){
-    document.title="Ram Client "+v.name;
-    document.body.className="player";
-    const links=VERSIONS.map(x=>'<a href="?play='+x.id+'" class="v'+(x.id===v.id?" on":"")+'">'+x.name+'</a>').join("");
-    document.body.innerHTML='<div class="bar"><a class="logo" href="./"><img src="logo.png" alt="">Ram Client</a>'+links+
-      '<span class="sp"></span><button id="plFull">Fullscreen</button><button id="plReload">Reload</button><a class="exit" href="./">Exit</a></div>'+
-      '<iframe id="game" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" allowfullscreen></iframe>'+
-      '<div class="pad"><iframe src="ad.html?s=wide" title="Advertisement"></iframe></div>';
-    const f=$("#game");f.src="?play="+v.id+"&frame=1";
-    $("#plReload").onclick=()=>{f.src="?play="+v.id+"&frame=1&r="+Date.now()};
-    $("#plFull").onclick=()=>{(f.requestFullscreen||f.webkitRequestFullscreen).call(f)};
-  }else if(v){
-    const boot=document.createElement("div");boot.id="boot";
-    boot.innerHTML='<div class="boot-in"><img src="logo.png" alt=""><div class="boot-name">Ram Client</div><div class="boot-ver">'+v.name+'</div><div class="boot-bar"><i></i></div><div class="boot-msg">Preparing...</div></div>';
-    document.body.appendChild(boot);
-    const msg=boot.querySelector(".boot-msg"),bar=boot.querySelector(".boot-bar i");
-    launch(v,t=>{msg.textContent=t;const p=/(\d+)%/.exec(t);if(p)bar.style.width=p[1]+"%"}).catch(e=>{msg.textContent="Failed to launch: "+e});
-  }else{
-    // launcher home
-    let ver="v263";try{ver=localStorage.getItem("ram.version")||ver}catch(e){}
-    if(!VERSIONS.some(x=>x.id===ver))ver="v263";
-    const setVer=id=>{ver=id;try{localStorage.setItem("ram.version",id)}catch(e){}
-      const n=VERSIONS.find(x=>x.id===id).name;$("#playVer").textContent=n;$(".logo .tag").textContent=n;
-      $("#playBtn").href=$("#joinBtn").href="?play="+id;
-      document.querySelectorAll("#vers button").forEach(b=>b.classList.toggle("on",b.dataset.v===id))};
-    document.querySelectorAll("#vers button").forEach(b=>b.onclick=()=>setVer(b.dataset.v));setVer(ver);
-    const navs=[...document.querySelectorAll(".side a.nav")];
-    navs.forEach(a=>a.addEventListener("click",()=>{navs.forEach(x=>x.classList.toggle("on",x===a))}));
-    document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>{
-      const t=b.textContent;navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy);b.textContent="Copied!";setTimeout(()=>b.textContent=t,1400)});
-    fetch("https://api.mcsrvstat.us/3/ram-craft.net").then(r=>r.json()).then(d=>{
-      $("#sDot").className="dot "+(d.online?"on":"off");$("#sTxt").textContent=d.online?"Server online":"Server offline";
-      $("#srvLine").textContent="ram-craft.net · "+(d.online?"online":"offline");
-    }).catch(()=>{$("#sTxt").textContent="ram-craft.net"});
-  }
+function renderCapes(){
+  const list=window.ASTRA_CAPES||[];
+  $("#capeList").innerHTML=`<button class="capec${!cos.cape?" on":""}" data-cape=""><canvas width="10" height="16"></canvas>No cape</button>`+
+    list.map(c=>`<button class="capec${cos.cape===c.id?" on":""}" data-cape="${c.id}"><canvas width="10" height="16"></canvas>${esc(c.name)}</button>`).join("");
+  $$("#capeList .capec").forEach(b=>{const c=list.find(x=>x.id===b.dataset.cape);if(c)capeCanvas(c,b.querySelector("canvas"),10,16);
+    b.onclick=()=>{cos.cape=b.dataset.cape;sv("astra.cosmetics",cos);renderCapes();drawChar();toast(c?c.name+" cape on":"Cape off")}});
 }
+function drawChar(){
+  const cv=$("#charCv"),x=cv.getContext("2d");x.imageSmoothingEnabled=false;x.clearRect(0,0,16,32);
+  // simple back view of a player: cape over a blocky body
+  x.fillStyle="#3b2a1f";x.fillRect(4,0,8,8);           // head (hair)
+  x.fillStyle="#1e3a8a";x.fillRect(2,8,12,12);           // shoulders/back
+  x.fillStyle="#334155";x.fillRect(4,20,4,12);x.fillRect(8,20,4,12); // legs
+  const c=(window.ASTRA_CAPES||[]).find(c=>c.id===cos.cape);
+  if(c){const draw=img=>{x.drawImage(img,1,1,10,16,3,8,10,16)};
+    if(capeImg[c.id])draw(capeImg[c.id]);else{const img=new Image();img.onload=()=>{capeImg[c.id]=img;draw(img)};img.src="data:image/png;base64,"+c.png}}
+}
+$("#uName").value=cos.username||"";
+$("#uSave").onclick=()=>{const n=$("#uName").value.trim();
+  if(n&&!/^[A-Za-z0-9_]{3,16}$/.test(n)){toast("3 to 16 letters, numbers or _");return}
+  cos.username=n;sv("astra.cosmetics",cos);toast("Saved")};
+
+/* themes */
+function renderThemes(){
+  const t=document.documentElement.dataset.theme;
+  $("#themeList").innerHTML=THEMES.map(([id,n,bg])=>`<button class="themec${t===id?" on":""}" data-t="${id}"><i style="background-image:${bg}"></i><span>${n}</span></button>`).join("");
+  $$("#themeList .themec").forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+}
+
+/* news */
+const newsHtml=n=>n.map(([d,t,p])=>`<article><time>${d}</time><div><b>${esc(t)}</b><p>${esc(p)}</p></div></article>`).join("");
+$("#newsShort").innerHTML=newsHtml(NEWS.slice(0,2));$("#newsAll").innerHTML=newsHtml(NEWS);
+
+/* search */
+function items(){
+  return [["Home","home"],["Instances","instances"],["Versions","versions"],["Servers","servers"],["Wardrobe","wardrobe"],["Themes","themes"],["News","news"]].map(([n,p])=>({n,a:()=>go(p)}))
+    .concat(VERSIONS.map(v=>({n:"Play "+v.name,a:()=>location.href="?play="+v.id})))
+    .concat((window.ASTRA_CAPES||[]).map(c=>({n:"Cape: "+c.name,a:()=>{cos.cape=c.id;sv("astra.cosmetics",cos);renderCapes();drawChar();go("wardrobe")}})))
+    .concat(THEMES.map(([id,n])=>({n:"Theme: "+n,a:()=>setTheme(id)})));
+}
+let skSel=0,skList=[];
+function renderSk(){
+  const q=$("#skIn").value.trim().toLowerCase();skList=items().filter(i=>i.n.toLowerCase().includes(q)).slice(0,8);skSel=Math.min(skSel,Math.max(0,skList.length-1));
+  $("#skRes").innerHTML=skList.map((i,k)=>`<button class="${k===skSel?"sel":""}" data-k="${k}">${esc(i.n)}</button>`).join("")||'<p class="empty">Nothing found</p>';
+  $$("#skRes button").forEach(b=>b.onclick=()=>{skList[+b.dataset.k].a();closeSearch()});
+}
+function openSearch(){$("#sk").classList.add("on");$("#skIn").value="";skSel=0;renderSk();$("#skIn").focus()}
+function closeSearch(){$("#sk").classList.remove("on")}
+$("#openSearch").onclick=openSearch;
+$("#sk").onclick=e=>{if(e.target.id==="sk")closeSearch()};
+$("#skIn").oninput=()=>{skSel=0;renderSk()};
+$("#skIn").onkeydown=e=>{if(e.key==="ArrowDown"){skSel=Math.min(skSel+1,skList.length-1);renderSk();e.preventDefault()}
+  else if(e.key==="ArrowUp"){skSel=Math.max(skSel-1,0);renderSk();e.preventDefault()}
+  else if(e.key==="Enter"&&skList[skSel]){skList[skSel].a();closeSearch()}};
+
+/* copy */
+document.addEventListener("click",e=>{const b=e.target.closest("[data-copy]");if(!b)return;
+  navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy);toast("Copied "+b.dataset.copy)});
+
+/* server status */
+fetch("https://api.mcsrvstat.us/3/ram-craft.net").then(r=>r.json()).then(d=>{
+  $("#sDot").className="dot "+(d.online?"on":"off");$("#sTxt").textContent=d.online?"Ram-Craft online":"Ram-Craft offline";
+  $$(".srvLine").forEach(s=>s.textContent="ram-craft.net · "+(d.online?(d.players?d.players.online+" playing":"online"):"offline"));
+  $("#plCount").textContent=d.online&&d.players?d.players.online:"0";
+}).catch(()=>{$("#sTxt").textContent="ram-craft.net"});
+
+function renderAll(){renderHome();renderInsts();renderVers();renderCapes();renderThemes();drawChar()}
+renderAll();go(location.hash.slice(1)||"home");
 </script>
 </body>
 </html>
