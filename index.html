@@ -280,6 +280,14 @@ html.noanim *{transition:none!important;animation:none!important}
 @media (max-width:1200px){.hgrid{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.ncards{grid-template-columns:1fr 1fr}.hero .char{display:none}}
 @media (max-width:700px){.ncards,.steps{grid-template-columns:1fr}.tchips{display:none}.heroR{align-items:stretch;width:100%}}
 
+
+.hero .char{position:absolute;right:35%;bottom:0;top:auto;transform:none;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:1}
+#heroCv{width:170px;height:250px;cursor:grab;filter:drop-shadow(0 18px 24px rgba(0,0,0,.35))}
+.hero .char .chip{margin-bottom:12px}
+.cmdbox{display:flex;gap:8px;align-items:center;margin-top:8px}
+.cmdbox code{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;padding:10px 12px;border-radius:11px;background:var(--glass2);border:1px solid var(--edge);font-size:.82rem}
+.hero{background:linear-gradient(120deg,color-mix(in srgb,var(--blue) 22%,transparent),transparent 60%),var(--glass)}
+.hero h1{text-shadow:0 2px 18px color-mix(in srgb,var(--blue) 30%,transparent)}
 /* icon rail sidebar */
 .app{grid-template-columns:72px 1fr}
 .side{z-index:30;width:72px;padding:14px 10px;align-items:center;gap:6px;border-radius:24px;overflow:visible}
@@ -376,7 +384,7 @@ html.noanim *{transition:none!important;animation:none!important}
               </div>
             </div>
             <div class="instq" id="instQuick" hidden></div>
-            <div class="char"><canvas id="charCv" width="16" height="32"></canvas></div>
+            <div class="char"><canvas id="charCv" width="16" height="32" hidden></canvas><canvas id="heroCv"></canvas><button class="chip" data-go="wardrobe">Change skin</button></div>
           </div>
 
           <div class="sechead"><h3>News</h3><a class="lnk2" href="#news">All news</a></div>
@@ -500,6 +508,10 @@ html.noanim *{transition:none!important;animation:none!important}
           <div class="field"><label for="uName">In-game name (3 to 16 letters, numbers or _)</label><input id="uName" maxlength="16" placeholder="Steve"></div>
           <button class="btn" id="uSave">Save</button>
           <p class="s" style="margin-top:12px">Use the same name every time, or the server will ask you to register again.</p>
+          <h2 style="margin-top:22px">Show your skin in game</h2>
+          <p class="s">Ram-Craft uses SkinsRestorer. Save your skin and name here, then type this in game chat once:</p>
+          <div class="cmdbox"><code id="skinCmd">Upload a skin and save your name first</code><button class="btn" id="skinCopy">Copy</button></div>
+          <p class="s" id="skinShareMsg" style="margin-top:8px"></p>
         </div>
       </div>
     </section>
@@ -621,7 +633,7 @@ function renderCapes(){
   $("#capeList").innerHTML=`<button class="capec${!cos.cape?" on":""}" data-cape=""><canvas width="10" height="16"></canvas>No cape</button>`+
     list.map(c=>`<button class="capec${cos.cape===c.id?" on":""}" data-cape="${c.id}"><canvas width="10" height="16"></canvas>${esc(c.name)}</button>`).join("");
   $$("#capeList .capec").forEach(b=>{const c=list.find(x=>x.id===b.dataset.cape);if(c)capeCanvas(c,b.querySelector("canvas"),10,16);
-    b.onclick=()=>{cos.cape=b.dataset.cape;sv("astra.cosmetics",cos);renderCapes();drawChar();loadSkin();toast(c?c.name+" cape on":"Cape off")}});
+    b.onclick=()=>{cos.cape=b.dataset.cape;sv("astra.cosmetics",cos);renderCapes();drawChar();loadSkin();heroLoad();toast(c?c.name+" cape on":"Cape off")}});
 }
 function drawChar(){
   const cv=$("#charCv"),x=cv.getContext("2d");x.imageSmoothingEnabled=false;x.clearRect(0,0,16,32);
@@ -636,7 +648,7 @@ function drawChar(){
 $("#uName").value=cos.username||"";
 $("#uSave").onclick=()=>{const n=$("#uName").value.trim();
   if(n&&!/^[A-Za-z0-9_]{3,16}$/.test(n)){toast("3 to 16 letters, numbers or _");return}
-  cos.username=n;sv("astra.cosmetics",cos);toast("Saved")};
+  cos.username=n;sv("astra.cosmetics",cos);shareSkin();toast("Saved")};
 
 /* themes */
 function renderThemes(){
@@ -784,7 +796,7 @@ function useSkinUrl(url,msg){
   img.onload=()=>{
     if(img.width!==64||(img.height!==64&&img.height!==32)){toast("Skins must be 64×64 or 64×32");return}
     const c=document.createElement("canvas");c.width=64;c.height=img.height;c.getContext("2d").drawImage(img,0,0);
-    skinData=c.toDataURL("image/png");sv("ram.skin",skinData);loadSkin();toast(msg)};
+    skinData=c.toDataURL("image/png");sv("ram.skin",skinData);loadSkin();heroLoad();shareSkin();toast(msg)};
   img.onerror=()=>toast("Could not load that skin");img.src=url;
 }
 $("#skinFile").onchange=e=>{const f=e.target.files[0];if(f)useSkinUrl(URL.createObjectURL(f),"Skin saved")};
@@ -794,7 +806,7 @@ const drop=$("#drop");
 drop.addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f&&/png/.test(f.type))useSkinUrl(URL.createObjectURL(f),"Skin saved");else toast("Drop a PNG skin")});
 $("#impBtn").onclick=()=>{const n=$("#impName").value.trim();if(!/^[A-Za-z0-9_]{3,16}$/.test(n)){toast("Type a Minecraft username");return}
   useSkinUrl("https://crafthead.net/skin/"+encodeURIComponent(n),"Imported "+n+"'s skin")};
-$("#skinReset").onclick=()=>{skinData="";sv("ram.skin","");loadSkin();toast("Default skin")};
+$("#skinReset").onclick=()=>{skinData="";sv("ram.skin","");loadSkin();heroLoad();renderSkinCmd("");toast("Default skin")};
 
 /* ---------- settings ---------- */
 $("#setVer").innerHTML=VERSIONS.map(v=>`<option value="${v.id}">${v.name}</option>`).join("");
@@ -869,7 +881,36 @@ const PAGE_NAMES={home:"Home",instances:"Instances",versions:"Versions",mods:"Mo
 addEventListener("hashchange",()=>{$("#tTitle").textContent=PAGE_NAMES[location.hash.slice(1)]||"Home"});
 
 $$('.side .nav').forEach(b=>b.dataset.tip=b.textContent.trim());$('#openSearch').dataset.tip='Search (Ctrl K)';
-function renderAll(){renderHome();renderHomeExtra();renderInsts();renderVers();renderCapes();renderThemes();drawChar();renderMods();loadSkin()}
+
+/* ---------- home 3D player + sharing skins with the server ---------- */
+let heroViewer=null;
+function initHero(){
+  if(heroViewer||!window.skinview3d)return;
+  heroViewer=new skinview3d.SkinViewer({canvas:document.getElementById("heroCv"),width:170,height:250});
+  heroViewer.background=null;heroViewer.zoom=0.9;heroViewer.fov=50;
+  heroViewer.autoRotate=!document.documentElement.classList.contains("noanim");heroViewer.autoRotateSpeed=0.5;
+  heroViewer.animation=new skinview3d.WalkingAnimation();heroViewer.animation.speed=0.6;
+  heroLoad();
+}
+function heroLoad(){
+  if(!heroViewer)return;
+  heroViewer.loadSkin(skinData||"https://crafthead.net/skin/MHF_Steve",{model:skinData?skinModel:"default"});
+  const c=capePng();if(c)heroViewer.loadCape(c);else heroViewer.loadCape(null);
+}
+function skinSecret(){let k=ld("ram.skinSecret","");if(!k){k=[...crypto.getRandomValues(new Uint8Array(24))].map(b=>b.toString(16).padStart(2,"0")).join("");sv("ram.skinSecret",k)}return k}
+function skinCmdText(){return cos.username&&skinData?"/skin url https://client.ram-craft.net/skins/"+cos.username+".png":""}
+function renderSkinCmd(msg){const t=skinCmdText();$("#skinCmd").textContent=t||"Upload a skin and save your name first";if(msg!==undefined)$("#skinShareMsg").textContent=msg}
+async function shareSkin(){
+  renderSkinCmd();
+  if(!cos.username||!skinData)return;
+  try{
+    const r=await fetch("https://client.ram-craft.net/api/skin",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({name:cos.username,png:skinData,secret:skinSecret()})});
+    const d=await r.json();renderSkinCmd(d.ok?"Skin uploaded. Run the command above in game.":(d.error||"Upload failed"));
+  }catch(e){renderSkinCmd("Could not upload the skin right now")}
+}
+$("#skinCopy").onclick=()=>{const t=skinCmdText();if(!t){toast("Upload a skin and save your name first");return}navigator.clipboard&&navigator.clipboard.writeText(t);toast("Command copied")};
+
+function renderAll(){initHero();renderSkinCmd();renderHome();renderHomeExtra();renderInsts();renderVers();renderCapes();renderThemes();drawChar();renderMods();loadSkin()}
 renderAll();go(location.hash.slice(1)||"home");
 </script>
 </body>
