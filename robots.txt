@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://notagame.ram-craft.net/sitemap.xml
