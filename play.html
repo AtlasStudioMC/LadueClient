@@ -1548,7 +1548,7 @@ function ramKeepAlive(){
 }
 
 /* 26.2 runs the official Eaglercraft 26.2 0.6-dev build exactly as provided (games/eagler-26.2.html). */
-function ramGameSrc(v){return v.id==="v262"?"games/eagler-26.2.html":"?play="+v.id+"&frame=1"}
+function ramGameSrc(v){return v.id==="v262"?"games/eagler-26.2.html":v.id==="v263"?"games/eagler-26.3/index.html":"?play="+v.id+"&frame=1"}
 function playerPage(v){
   document.title="Ram Client "+v.name;
   const st=document.createElement("style");
