@@ -1,0 +1,20 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Ram Client</title>
+<style>html,body{margin:0;height:100%;background:#000;color:#9fb0d6;font:14px system-ui}#m{position:fixed;inset:0;display:grid;place-items:center}</style></head>
+<body><div id="m">Loading...</div>
+<script>
+/* Loads the game file below exactly as it is on the server (not edited), and adds Wispcraft so
+   multiplayer goes through the Ram-Craft relay instead of the slow public relays. */
+(async function(){
+  var FILE="index.html";
+  try{
+    try{localStorage.wispcraft_wispurl="wss://relay.ram-craft.net/wisp/"}catch(e){}
+    var r=await fetch(FILE,{cache:"no-cache"});if(!r.ok)throw new Error("HTTP "+r.status);
+    var html=await r.text();
+    var wc=await (await fetch("../wispcraft.js",{cache:"no-cache"})).text();
+    var inj='<script>try{localStorage.wispcraft_wispurl="wss://relay.ram-craft.net/wisp/"}catch(e){}<\/script><script>'+wc.replace(/<\/script/gi,"<\\/script")+'<\/script>';
+    var i=html.indexOf("<head>");html=i>=0?html.slice(0,i+6)+inj+html.slice(i+6):inj+html;
+    document.open();document.write(html);document.close();
+  }catch(e){document.getElementById("m").textContent="Could not load the game: "+e.message;}
+})();
+</script></body></html>
