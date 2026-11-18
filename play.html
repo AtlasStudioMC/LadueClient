@@ -1546,6 +1546,9 @@ function ramKeepAlive(){
   }catch(e){}
   try{if(navigator.locks)navigator.locks.request("ram-client-keepalive",()=>new Promise(()=>{}))}catch(e){}
 }
+
+/* 26.2 runs the official Eaglercraft 26.2 0.6-dev build exactly as provided (games/eagler-26.2.html). */
+function ramGameSrc(v){return v.id==="v262"?"games/eagler-26.2.html":"?play="+v.id+"&frame=1"}
 function playerPage(v){
   document.title="Ram Client "+v.name;
   const st=document.createElement("style");
@@ -1622,7 +1625,7 @@ function playerPage(v){
         <span class="pl-sp"></span>
         <button class="pl-btn" id="plFull">⛶ Fullscreen</button>
         <button class="pl-btn" id="plReload">↻ Reload</button>
-        <a class="pl-btn" id="plPop" href="?play=${v.id}&frame=1" target="_blank" rel="noopener">↗ Pop out</a>
+        <a class="pl-btn" id="plPop" href="${ramGameSrc(v)}" target="_blank" rel="noopener">↗ Pop out</a>
         <a class="pl-btn red" href="./">⏻ Exit game</a>
       </div>
       <div class="pl-ad"><small>Advertisement</small><div id="adBottom"></div></div>
@@ -1637,14 +1640,14 @@ function playerPage(v){
   const frame=document.createElement("iframe");
   frame.allow="fullscreen; gamepad; autoplay; clipboard-read; clipboard-write; pointer-lock";
   frame.allowFullscreen=true;frame.title=v.full;
-  frame.src="?play="+v.id+"&frame=1";
+  frame.src=ramGameSrc(v);
   $("#plFrame").appendChild(frame);
   frame.addEventListener("load",()=>{try{frame.contentWindow.focus()}catch(e){}
     // start the background keep-alive on the player's first click or key press inside the game
     try{const w=frame.contentWindow;["pointerdown","keydown"].forEach(t=>w.addEventListener(t,ramKeepAlive,{once:true,capture:true}))}catch(e){}});
   ["pointerdown","keydown"].forEach(t=>addEventListener(t,ramKeepAlive,{once:true,capture:true}));
   $("#plFull").onclick=()=>{(frame.requestFullscreen||frame.webkitRequestFullscreen).call(frame)};
-  $("#plReload").onclick=()=>{frame.src="?play="+v.id+"&frame=1&r="+Date.now()};
+  $("#plReload").onclick=()=>{frame.src=ramGameSrc(v)+(ramGameSrc(v).includes("?")?"&":"?")+"r="+Date.now()};
   ramVoice(frame);
   fetch("https://map.ram-craft.net/status").then(r=>r.json()).then(d=>{if(d.online)$("#plInfo").textContent="Server: ram-craft.net · "+d.players.online+" online"}).catch(()=>{});
   // ads: banners only (top/bottom banner, two rails each side)
