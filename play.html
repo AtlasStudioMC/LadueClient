@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9478013829475247"
-     crossorigin="anonymous"></script>
+<script>
+/* Ads never load inside the game window (?frame=1), and ?noads=1 turns them off for testing. */
+window.RAM_NOADS=/[?&](frame|noads)=1/.test(location.search);
+if(!window.RAM_NOADS){var a=document.createElement("script");a.async=true;a.crossOrigin="anonymous";
+  a.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9478013829475247";document.head.appendChild(a);}
+</script>
 <meta charset="UTF-8">
 <script>
 /* Share launcher settings across every *.ram-craft.net site (each site has its own storage). */
@@ -1645,9 +1649,11 @@ function playerPage(v){
   fetch("https://map.ram-craft.net/status").then(r=>r.json()).then(d=>{if(d.online)$("#plInfo").textContent="Server: ram-craft.net · "+d.players.online+" online"}).catch(()=>{});
   // ads: banners only (top/bottom banner, two rails each side)
   const wide=innerWidth>=800;
+  if(!window.RAM_NOADS){
   $("#adTop").appendChild(adSlot(wide?"wide":"small"));
   $("#adBottom").appendChild(adSlot(wide?"wide":"small"));
   if(innerWidth>1150){["adL1","adR1"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));["adL2","adR2"].forEach(id=>$("#"+id).appendChild(adSlot("sky")));}
+  }else{document.querySelectorAll(".pl-ad,.pl-rail").forEach(e=>e.remove());document.querySelector(".pl-main").style.gridTemplateColumns="minmax(0,1fr)";}
 }
 
 /* ---------- Ram-Craft voice chat (play page) ----------
